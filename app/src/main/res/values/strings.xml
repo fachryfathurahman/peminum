@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Peminum</string>
+    <string name="nama">Nama</string>
+    <string name="sandi">Sandi</string>
+    <string name="login">masuk</string>
+    <string name="belum_punya_akun">Belum Punya akun? Daftar <u>Disini</u> </string>
+</resources>

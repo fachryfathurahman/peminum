@@ -1,7 +1,13 @@
 <resources>
-    <string name="app_name">Peminum</string>
-    <string name="nama">Nama</string>
-    <string name="sandi">Sandi</string>
-    <string name="login">masuk</string>
-    <string name="belum_punya_akun">Belum Punya akun? Daftar <u>Disini</u> </string>
+    <string name="app_name">PeminumApp</string>
+    <string name="loginTittle">SIGN IN</string>
+    <string name="signUpTittle">SIGN UP</string>
+    <string name="usernamePromt">Username</string>
+    <string name="passwordPromt">Password</string>
+    <string name="donthaveaccount">Don\'t have account?</string>
+    <string name="signUp">Sign Up</string>
+    <string name="repasswordPromt">Re-enter Password</string>
+    <string name="email">E-Mail</string>
+    <string name="alreadyhaveaccount">Already have an account?</string>
+    <string name="signIn">Sign In</string>
 </resources>

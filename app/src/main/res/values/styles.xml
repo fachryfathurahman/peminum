@@ -8,5 +8,29 @@
         <item name="colorAccent">@color/colorAccent</item>
 
     </style>
+    
+    <style name="NumberPickerText">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
+    <style name="DefaultGender">
+        <item name="female_pick">#B0B5B7</item>
+        <item name="male_pick">#B0B5B7</item>
+    </style>
+
+    <style name="FemalePick" parent="DefaultGender">
+        <item name="female_pick">@color/femaleColor</item>
+        <item name="male_pick">#B0B5B7</item>
+    </style>
+
+    <style name="MalePick">
+        <item name="female_pick">#B0B5B7</item>
+        <item name="male_pick">@color/maleColor</item>
+    </style>
+    
+    <declare-styleable name="GenderPick">
+        <attr name="female_pick" format="color"/>
+        <attr name="male_pick" format="color"/>
+    </declare-styleable>
 </resources>

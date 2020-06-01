@@ -12,8 +12,8 @@
     </item>
     <item android:top="150dp" android:bottom="150dp" android:left="150dp" android:right="150dp">
         <vector
-            android:width="187.957dp"
-            android:height="187.957dp"
+            android:width="512dp"
+            android:height="512dp"
             android:viewportWidth="187.957"
             android:viewportHeight="187.957">
             <path

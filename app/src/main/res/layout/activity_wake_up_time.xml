@@ -4,32 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pendaftaran.GenderActivity">
-
-    <ImageView
-        android:id="@+id/femaleImageView"
-        android:layout_width="190dp"
-        android:layout_height="190dp"
-        android:layout_marginTop="100dp"
-        app:layout_constraintBottom_toBottomOf="@+id/maleImageView"
-        app:layout_constraintEnd_toStartOf="@+id/maleImageView"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:srcCompat="@drawable/ic_female_character" />
-
-    <ImageView
-        android:id="@+id/maleImageView"
-        android:layout_width="190dp"
-        android:layout_height="190dp"
-        android:layout_marginTop="100dp"
-        app:layout_constraintBottom_toTopOf="@+id/genderNextbtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/femaleImageView"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_male_character" />
+    tools:context=".pendaftaran.WakeUpTimeActivity">
 
     <ImageView
         android:id="@+id/imageView3"
@@ -52,7 +27,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_alarm_grey" />
+        app:srcCompat="@drawable/ic_alarm_blue" />
 
     <ImageView
         android:id="@+id/imageView7"
@@ -74,14 +49,14 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imageView3"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_scale_grey" />
+        app:srcCompat="@drawable/ic_scale_blue" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Jenis Kelamin"
+        android:text="@string/waktu_bangun"
         android:textSize="23sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/imageView7"
@@ -89,32 +64,44 @@
         app:layout_constraintStart_toStartOf="@+id/imageView3"
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
-    <TextView
-        android:id="@+id/genderTextView"
+    <TimePicker
+        android:id="@+id/WakeUpTimePicker"
         android:layout_width="wrap_content"
+        android:theme="@style/NumberPickerText"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text=""
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/genderNextbtn"
-        app:layout_constraintEnd_toEndOf="@+id/femaleImageView"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/maleImageView"
-        app:layout_constraintTop_toBottomOf="@+id/maleImageView"
-        app:layout_constraintVertical_bias="0.048" />
+        android:layout_marginTop="64dp"
+        android:timePickerMode="spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <Button
-        android:id="@+id/genderNextbtn"
+        android:id="@+id/wakeUpNextbtn"
         android:layout_width="89dp"
         android:layout_height="39dp"
         android:layout_marginBottom="44dp"
         android:background="@drawable/btn_rounded"
-        android:onClick="openWeightActivity"
         android:text="@string/next"
+        android:onClick="WakeUpNextButtonOnClick"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.866"
+        app:layout_constraintHorizontal_bias="0.857"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/wakeUpBackbtn"
+        android:layout_width="89dp"
+        android:layout_height="39dp"
+        android:layout_marginBottom="44dp"
+        android:background="@drawable/btn_rounded"
+        android:text="@string/back"
+        android:textColor="@color/white"
+        android:onClick="WakeUpBackButtonOnClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/wakeUpNextbtn"
+        app:layout_constraintHorizontal_bias="0.231"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/wakeUpNextbtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

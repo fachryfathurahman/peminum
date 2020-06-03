@@ -3,10 +3,12 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="themeColor">#518DA6</color>
+    <color name="themeColor">#008BC5</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="femaleColor">#E240AC</color>
     <color name="maleColor">#1CC2D5</color>
+    <color name="transparentWhite">#cccc</color>
+    <color name="SplashColor">#3E9FFF</color>
 
 </resources>

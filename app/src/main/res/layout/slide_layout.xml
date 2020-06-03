@@ -9,7 +9,7 @@
         android:id="@+id/contentImageSlider"
         android:layout_width="240dp"
         android:layout_height="240dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="172dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,7 +19,7 @@
         android:id="@+id/heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="28dp"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
         android:text="@string/welcome"
@@ -27,6 +27,7 @@
         android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/contentImageSlider"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="@+id/contentImageSlider"
         app:layout_constraintTop_toBottomOf="@+id/contentImageSlider" />
 
@@ -35,13 +36,11 @@
         android:id="@+id/contentSlider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:padding="20dp"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ac metus laoreet, porttitor nisl id, rhoncus diam. Donec eget dolor in lorem ornare scelerisque."
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/heading"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@+id/heading"
         app:layout_constraintTop_toBottomOf="@+id/heading" />
 </androidx.constraintlayout.widget.ConstraintLayout>

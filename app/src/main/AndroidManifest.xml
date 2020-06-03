@@ -9,16 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".pendaftaran.SleepTimeActivity"></activity>
+        <activity android:name=".SplashScreen"><intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter></activity>
+        <activity android:name=".onboardingscreen.onBoardingActivity"/>
+        <activity android:name=".pendaftaran.SleepTimeActivity" />
         <activity android:name=".pendaftaran.WakeUpTimeActivity" />
         <activity android:name=".pendaftaran.WeightActivity" />
-        <activity android:name=".pendaftaran.GenderActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".pendaftaran.GenderActivity"/>
         <activity android:name=".SignUp" />
         <activity android:name=".loginActivity" />
     </application>

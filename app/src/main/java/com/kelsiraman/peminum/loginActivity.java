@@ -23,19 +23,21 @@ public class loginActivity extends AppCompatActivity {
         moveToSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               moveIntent();
+               moveToSignUp();
             }
         });
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
             }
         });
     }
-    public void moveIntent(){
+    public void moveToSignUp(){
         Intent intent  = new Intent(getBaseContext(),SignUp.class);
         startActivity(intent);
     }
+
 
 }

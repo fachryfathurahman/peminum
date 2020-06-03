@@ -20,4 +20,11 @@
     <string name="welcome">Welcome</string>
     <string name="get_started">Get Started</string>
     <string name="peminum">P E M I N U M</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="profile_tab_text">Profile</string>
+    <string name="history_tab_text">History</string>
+    <string name="home_tab_text">Home</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

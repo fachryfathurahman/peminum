@@ -17,4 +17,8 @@
     <string name="waktu_tidur">Waktu Tidur</string>
     <string name="female">Female</string>
     <string name="male">Male</string>
+
+    <string name="home">Home</string>
+    <string name="history">History</string>
+    <string name="setting">Seting</string>
 </resources>

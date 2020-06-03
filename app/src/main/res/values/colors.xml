@@ -6,7 +6,6 @@
     <color name="themeColor">#518DA6</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="femaleColor">#E240AC</color>
-    <color name="maleColor">#1CC2D5</color>
+    <color name="unselected">#ADFFFFFF</color>
 
 </resources>

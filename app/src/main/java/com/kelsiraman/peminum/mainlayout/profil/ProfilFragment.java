@@ -29,7 +29,6 @@ public class ProfilFragment extends Fragment {
 
     public static ProfilFragment newInstance(){
         ProfilFragment fragment = new ProfilFragment();
-
         return fragment;
 
     }

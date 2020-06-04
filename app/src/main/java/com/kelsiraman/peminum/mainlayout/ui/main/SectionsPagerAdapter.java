@@ -7,7 +7,9 @@ import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kelsiraman.peminum.R;
 import com.kelsiraman.peminum.mainlayout.history.HistoryFragment;
 import com.kelsiraman.peminum.mainlayout.home.HomeFragment;
@@ -19,6 +21,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.home_tab_text, R.string.history_tab_text,R.string.profile_tab_text};
     private final Context mContext;
+    private FloatingActionButton fab;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
@@ -45,7 +48,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-
         return 3;
     }
 }

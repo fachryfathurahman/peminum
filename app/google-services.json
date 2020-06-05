@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "151822475071",
+    "firebase_url": "https://peminum-cd50a.firebaseio.com",
+    "project_id": "peminum-cd50a",
+    "storage_bucket": "peminum-cd50a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:151822475071:android:21da3689207d860a6dbd8a",
+        "android_client_info": {
+          "package_name": "com.kelsiraman.peminum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "151822475071-1h36r01hanrjfuh8mcgmpmf23me327eb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kelsiraman.peminum",
+            "certificate_hash": "35b2b49b6ad04e387d3d32383fda6c4f4892a16c"
+          }
+        },
+        {
+          "client_id": "151822475071-2s1l6f94a1kakodggc984pp21669odg5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBf3OJXnPly9uL-i4jiI7MQJZVH_Y4RXds"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "151822475071-2s1l6f94a1kakodggc984pp21669odg5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

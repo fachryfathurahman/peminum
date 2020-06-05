@@ -23,7 +23,7 @@ public class loginActivity extends AppCompatActivity {
         moveToSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               moveToSignUp();
+                moveToSignUp();
             }
         });
 

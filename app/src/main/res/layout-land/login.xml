@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/siUsername"
         android:layout_width="261dp"
         android:layout_height="39dp"
         android:layout_marginTop="40dp"
@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/siPassword"
         android:layout_width="261dp"
         android:layout_height="44dp"
         android:layout_marginTop="20dp"
@@ -45,10 +45,10 @@
         android:ems="10"
         android:hint="@string/passwordPromt"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/editText"
+        app:layout_constraintEnd_toEndOf="@+id/siUsername"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editText"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintStart_toStartOf="@+id/siUsername"
+        app:layout_constraintTop_toBottomOf="@+id/siUsername" />
 
     <Button
         android:id="@+id/signInButton"
@@ -59,10 +59,10 @@
         android:text="@string/loginTittle"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/editText2"
+        app:layout_constraintEnd_toEndOf="@+id/siPassword"
         app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="@+id/editText2"
-        app:layout_constraintTop_toBottomOf="@+id/editText2"
+        app:layout_constraintStart_toStartOf="@+id/siPassword"
+        app:layout_constraintTop_toBottomOf="@+id/siPassword"
         app:layout_constraintVertical_bias="0.035" />
 
     <TextView

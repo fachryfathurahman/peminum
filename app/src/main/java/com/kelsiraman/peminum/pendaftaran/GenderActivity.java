@@ -14,11 +14,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kelsiraman.peminum.R;
+import com.kelsiraman.peminum.model.DataUser;
 
 public class GenderActivity extends AppCompatActivity implements View.OnClickListener {
+    private DataUser parcelDU, du;
+    private static final String PARCEL = "DATAUSER";
+    private ImageView maleImageView, femaleImageView;
+    private TextView genderTextView;
 
-    ImageView maleImageView, femaleImageView;
-    TextView genderTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +30,7 @@ public class GenderActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void init(){
+        du = new DataUser();
         maleImageView = findViewById(R.id.maleImageView);
         femaleImageView = findViewById(R.id.femaleImageView);
         genderTextView = findViewById(R.id.genderTextView);
@@ -40,17 +44,17 @@ public class GenderActivity extends AppCompatActivity implements View.OnClickLis
     private void changeThemeFemale(final Resources.Theme theme){
         final Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_female_character, theme);
         femaleImageView.setImageDrawable(drawable);
-
     }
 
     private void changeThemeMale(final Resources.Theme theme){
         final Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_male_character, theme);
         maleImageView.setImageDrawable(drawable);
-
     }
 
     public void openWeightActivity(View view){
+        du = new DataUser("Joni", du.getUserGender(), null, null, 0);
         Intent intent = new Intent(this, WeightActivity.class);
+        intent.putExtra(PARCEL, du);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
     }
@@ -59,6 +63,7 @@ public class GenderActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.femaleImageView:
+                du.setUserGender("Female");
                 final ContextThemeWrapper wrapperFemale = new ContextThemeWrapper(this, R.style.FemalePick);
                 changeThemeFemale(wrapperFemale.getTheme());
                 changeThemeMale(wrapperFemale.getTheme());
@@ -66,6 +71,7 @@ public class GenderActivity extends AppCompatActivity implements View.OnClickLis
                 genderTextView.setTextColor(getResources().getColor(R.color.femaleColor));
                 break;
             case R.id.maleImageView:
+                du.setUserGender("Male");
                 final ContextThemeWrapper wrapperMale = new ContextThemeWrapper(this, R.style.MalePick);
                 changeThemeFemale(wrapperMale.getTheme());
                 changeThemeMale(wrapperMale.getTheme());

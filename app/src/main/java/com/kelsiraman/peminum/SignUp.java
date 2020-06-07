@@ -18,15 +18,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kelsiraman.peminum.mainlayout.MainActivity;
+import com.kelsiraman.peminum.model.DataUser;
+import com.kelsiraman.peminum.pendaftaran.GenderActivity;
 
 public class SignUp extends AppCompatActivity {
-
     private static final String TAG = "EmailPassword";
     private FirebaseAuth mAuth;
-
-    private TextView signIn;
     private EditText username, email, password, confirmPassword;
-    private Button signUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,36 +32,18 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         mAuth = FirebaseAuth.getInstance();
-
         username = findViewById(R.id.suUsername);
         email = findViewById(R.id.suEmail);
         password = findViewById(R.id.suPassword);
         confirmPassword = findViewById(R.id.suConfirmPassword);
-        signUp = findViewById(R.id.signupButton);
-        signIn = findViewById(R.id.moveToSignIn);
+
+        Button signUp = findViewById(R.id.signupButton);
+        TextView signIn = findViewById(R.id.moveToSignIn);
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String valueUsername = username.getText().toString();
-                String valueEmail = email.getText().toString();
-                String valuePassword = password.getText().toString();
-                String valueConfirmPassword = confirmPassword.getText().toString();
-
-                if (valueUsername.isEmpty() || valueEmail.isEmpty() || valuePassword.isEmpty() || valueConfirmPassword.isEmpty()) {
-                    Toast.makeText(SignUp.this, "Form Tidak Lengkap", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(valuePassword.length() < 7){
-                    Toast.makeText(SignUp.this, "Password harus di atas 6 karakter", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(!(valuePassword.equals(valueConfirmPassword))){
-                    Toast.makeText(SignUp.this, "Password Tidak Sama", Toast.LENGTH_SHORT).show();
-                    confirmPassword.setText("");
-                    return;
-                }
-                createAccount(valueEmail, valuePassword);
+                inputForm();
             }
         });
 
@@ -75,6 +55,28 @@ public class SignUp extends AppCompatActivity {
         });
     }
 
+    private void inputForm() {
+        String valueUsername = username.getText().toString();
+        String valueEmail = email.getText().toString();
+        String valuePassword = password.getText().toString();
+        String valueConfirmPassword = confirmPassword.getText().toString();
+
+        if (valueUsername.isEmpty() || valueEmail.isEmpty() || valuePassword.isEmpty() || valueConfirmPassword.isEmpty()) {
+            Toast.makeText(SignUp.this, "Form Tidak Lengkap", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(valuePassword.length() < 7){
+            Toast.makeText(SignUp.this, "Password harus di atas 6 karakter", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(!(valuePassword.equals(valueConfirmPassword))){
+            Toast.makeText(SignUp.this, "Password Tidak Sama", Toast.LENGTH_SHORT).show();
+            confirmPassword.setText("");
+            return;
+        }
+        createAccount(valueEmail, valuePassword);
+    }
+
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
         mAuth.createUserWithEmailAndPassword(email, password).
@@ -83,7 +85,9 @@ public class SignUp extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "createUserWithEmail:success");
-                            moveToMain();
+                            DataUser du = new DataUser();
+                            du.setUsername(username.getText().toString());
+                            moveToGenderActivity();
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(SignUp.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
@@ -97,8 +101,8 @@ public class SignUp extends AppCompatActivity {
         startActivity(signIn);
     }
 
-    public void moveToMain(){
-        Intent main = new Intent(getBaseContext(), MainActivity.class);
-        startActivity(main);
+    public void moveToGenderActivity(){
+        Intent gender = new Intent(getBaseContext(), GenderActivity.class);
+        startActivity(gender);
     }
 }

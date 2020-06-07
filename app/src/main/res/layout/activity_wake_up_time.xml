@@ -65,7 +65,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
     <TimePicker
-        android:id="@+id/WakeUpTimePicker"
+        android:id="@+id/wakeUpTimePicker"
         android:layout_width="wrap_content"
         android:theme="@style/NumberPickerText"
         android:layout_height="wrap_content"

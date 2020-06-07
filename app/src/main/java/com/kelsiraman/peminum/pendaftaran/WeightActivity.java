@@ -8,16 +8,21 @@ import android.view.View;
 import android.widget.NumberPicker;
 
 import com.kelsiraman.peminum.R;
+import com.kelsiraman.peminum.model.DataUser;
 
 public class WeightActivity extends AppCompatActivity {
+    private DataUser parcelDU;
+    private static final String PARCEL = "DATAUSER";
+    private NumberPicker weightPicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weight);
 
-        NumberPicker weightPicker = findViewById(R.id.weightPicker);
-        weightPicker.setMaxValue(100);
+        parcelDU = getIntent().getParcelableExtra(PARCEL);
+        weightPicker = findViewById(R.id.weightPicker);
+        weightPicker.setMaxValue(150);
         weightPicker.setMinValue(1);
         weightPicker.setValue(50);
     }
@@ -27,7 +32,9 @@ public class WeightActivity extends AppCompatActivity {
     }
 
     public void WeightNextButtonOnClick(View view){
+        DataUser du = new DataUser(parcelDU.getUsername(), parcelDU.getUserGender(), null, null, weightPicker.getValue());
         Intent intent = new Intent(this, WakeUpTimeActivity.class);
+        intent.putExtra(PARCEL, du);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
     }

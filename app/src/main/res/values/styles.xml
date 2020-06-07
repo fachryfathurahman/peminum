@@ -42,4 +42,10 @@
         <attr name="female_pick" format="color" />
         <attr name="male_pick" format="color" />
     </declare-styleable>
+
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@android:color/darker_gray</item>
+    </style>
 </resources>

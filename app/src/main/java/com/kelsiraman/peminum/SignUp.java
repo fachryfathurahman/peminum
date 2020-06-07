@@ -27,12 +27,13 @@ public class SignUp extends AppCompatActivity {
     private TextView signIn;
     private EditText username, email, password, confirmPassword;
     private Button signUp;
-    private String valueUsername, valueEmail, valuePassword, valueConfirmPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        mAuth = FirebaseAuth.getInstance();
 
         username = findViewById(R.id.suUsername);
         email = findViewById(R.id.suEmail);
@@ -41,17 +42,25 @@ public class SignUp extends AppCompatActivity {
         signUp = findViewById(R.id.signupButton);
         signIn = findViewById(R.id.moveToSignIn);
 
-        valueUsername = username.getText().toString();
-        valueEmail = email.getText().toString();
-        valuePassword = password.getText().toString();
-        valueConfirmPassword = confirmPassword.getText().toString();
-
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!valuePassword.equals(valueConfirmPassword)){
-                    Log.d(TAG, "createAccount:" + valuePassword + " || " + valueConfirmPassword);
-                    //TODO: tambahkan peringatan password tidak sama
+                String valueUsername = username.getText().toString();
+                String valueEmail = email.getText().toString();
+                String valuePassword = password.getText().toString();
+                String valueConfirmPassword = confirmPassword.getText().toString();
+
+                if (valueUsername.isEmpty() || valueEmail.isEmpty() || valuePassword.isEmpty() || valueConfirmPassword.isEmpty()) {
+                    Toast.makeText(SignUp.this, "Form Tidak Lengkap", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(valuePassword.length() < 7){
+                    Toast.makeText(SignUp.this, "Password harus di atas 6 karakter", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(!(valuePassword.equals(valueConfirmPassword))){
+                    Toast.makeText(SignUp.this, "Password Tidak Sama", Toast.LENGTH_SHORT).show();
+                    confirmPassword.setText("");
                     return;
                 }
                 createAccount(valueEmail, valuePassword);
@@ -61,22 +70,15 @@ public class SignUp extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //moveToSignIn();
-                onBackPressed();
+                moveToSignIn();
             }
         });
-
-
     }
 
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
-        if (valueUsername.isEmpty() || valueEmail.isEmpty() || valuePassword.isEmpty() || valueConfirmPassword.isEmpty()) {
-            return;
-        }
-
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mAuth.createUserWithEmailAndPassword(email, password).
+                addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {

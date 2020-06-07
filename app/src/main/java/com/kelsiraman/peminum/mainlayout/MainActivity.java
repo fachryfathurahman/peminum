@@ -15,12 +15,13 @@ import com.kelsiraman.peminum.mainlayout.ui.main.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
     private TabLayout tabs;
+    private Context mContext;
     private int[] tabIcons = {
             R.drawable.ic_drop,
             R.drawable.ic_history,
             R.drawable.ic_user
     };
-    private Context mContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

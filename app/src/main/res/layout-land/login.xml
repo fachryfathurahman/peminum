@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/siUsername"
+        android:id="@+id/siEmail"
         android:layout_width="261dp"
         android:layout_height="39dp"
         android:layout_marginTop="40dp"
@@ -45,10 +45,10 @@
         android:ems="10"
         android:hint="@string/passwordPromt"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/siUsername"
+        app:layout_constraintEnd_toEndOf="@+id/siEmail"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/siUsername"
-        app:layout_constraintTop_toBottomOf="@+id/siUsername" />
+        app:layout_constraintStart_toStartOf="@+id/siEmail"
+        app:layout_constraintTop_toBottomOf="@+id/siEmail" />
 
     <Button
         android:id="@+id/signInButton"

@@ -24,9 +24,9 @@
         <activity android:name=".pendaftaran.WakeUpTimeActivity" />
         <activity android:name=".pendaftaran.WeightActivity" />
         <activity android:name=".pendaftaran.GenderActivity" />
-        <activity android:name=".SignUp" />
+        <activity android:name=".loginActivity" />
         <activity
-            android:name=".loginActivity" >
+            android:name=".SignUp" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

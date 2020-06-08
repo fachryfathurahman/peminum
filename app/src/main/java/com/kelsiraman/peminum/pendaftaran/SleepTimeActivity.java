@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -33,6 +36,7 @@ public class SleepTimeActivity extends AppCompatActivity {
     }
 
     public void SleepNextButtonOnClick(View view){
+        Log.d("parcelDariSU", parcelDU.getUserEmail() + " " + parcelDU.getUsername() + " " + parcelDU.getUserGender() + " " + parcelDU.getUserBerat() + " " + parcelDU.getUserBangun() + " " + getWaktuTidur());
         du = new DataUser(parcelDU.getUserEmail(), parcelDU.getUsername(), parcelDU.getUserGender(), parcelDU.getUserBangun(), getWaktuTidur(), parcelDU.getUserBerat());
         pushToDatabase();
         moveToMain();
@@ -41,33 +45,21 @@ public class SleepTimeActivity extends AppCompatActivity {
     private String getWaktuTidur() {
         int jamTidur = waktuTidur.getCurrentHour();
         int menitTidur = waktuTidur.getCurrentMinute();
-        String ampm;
-
-        if(jamTidur > 12) {
-            jamTidur -= 12;
-            ampm = "PM";
-        }
-        else {
-            ampm = "AM";
-        }
-        return jamTidur + ":" + menitTidur + " " + ampm;
+        return jamTidur + ":" + menitTidur;
     }
 
     private void pushToDatabase() {
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String getUserID = auth.getCurrentUser().getUid();
-
-//        database.child("Data User").child(getUserID).child("Profil User").push()
-//                .setValue(new DataUser(du.getUsername(), du.getUserGender(), du.getUserBangun(), du.getUserTidur(), du.getUserBerat()))
-//                .addOnSuccessListener(this, new OnSuccessListener() {
-//                    @Override
-//                    public void onSuccess(Object o) {
-//                        //Peristiwa ini terjadi saat user berhasil menyimpan datanya kedalam Database
-//                        Toast.makeText(SleepTimeActivity.this, "Data Tersimpan", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        database.child("DataUser").child(getUserID).push()
+                .setValue(new DataUser(parcelDU.getUserEmail(), parcelDU.getUsername(), parcelDU.getUserGender(), parcelDU.getUserBangun(), getWaktuTidur(), parcelDU.getUserBerat()))
+                .addOnSuccessListener(this, new OnSuccessListener() {
+                    @Override
+                    public void onSuccess(Object o) {
+                        Toast.makeText(SleepTimeActivity.this, "Data Tersimpan", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void moveToMain() {

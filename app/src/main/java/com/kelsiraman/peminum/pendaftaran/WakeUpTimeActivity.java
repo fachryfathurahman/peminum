@@ -11,15 +11,14 @@ import com.kelsiraman.peminum.R;
 import com.kelsiraman.peminum.model.DataUser;
 
 public class WakeUpTimeActivity extends AppCompatActivity {
-    private DataUser parcelDU;
     private static final String PARCEL = "DATAUSER";
+    private DataUser parcelDU;
     private TimePicker waktuBangun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wake_up_time);
-
         parcelDU = getIntent().getParcelableExtra(PARCEL);
         waktuBangun = findViewById(R.id.wakeUpTimePicker);
     }
@@ -39,16 +38,7 @@ public class WakeUpTimeActivity extends AppCompatActivity {
     private String getWaktuBangun() {
         int jamBangun = waktuBangun.getCurrentHour();
         int menitBangun = waktuBangun.getCurrentMinute();
-        String ampm;
-
-        if(jamBangun > 12) {
-            jamBangun -= 12;
-            ampm = "PM";
-        }
-        else {
-            ampm = "AM";
-        }
-        return jamBangun + ":" + menitBangun + " " + ampm;
+        return jamBangun + ":" + menitBangun;
     }
 
     public void finish(){

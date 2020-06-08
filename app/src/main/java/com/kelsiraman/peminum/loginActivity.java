@@ -27,7 +27,7 @@ import com.kelsiraman.peminum.model.DataUser;
 
 public class loginActivity extends AppCompatActivity {
     private static final String PARCEL = "DATAUSER";
-    private DataUser du;
+    private DataUser parcelDU;
     private static final String TAG = "EmailPassword";
     private FirebaseAuth mAuth;
     private String parcelEmail, parcelUsername, parcelGender, parcelBangun, parcelTidur;
@@ -82,28 +82,31 @@ public class loginActivity extends AppCompatActivity {
     }
 
     private void fetchDataAndToMain() {
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        database.child("DataUser").child(mAuth.getUid())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        parcelUsername = dataSnapshot.child("username").getValue(String.class);
-                        parcelGender = dataSnapshot.child("userGender").getValue(String.class);
-                        parcelBerat = Integer.parseInt(dataSnapshot.child("userBerat").getValue(String.class));
-                        parcelBangun = dataSnapshot.child("userBangun").getValue(String.class);
-                        parcelTidur = dataSnapshot.child("userTidur").getValue(String.class);
-                        moveToMain();
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });
         FirebaseUser user = mAuth.getCurrentUser();
         parcelEmail = user.getEmail();
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        database.child("DataUser").child(mAuth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()){
+                    parcelDU = data.getValue(DataUser.class);
+                    parcelUsername = parcelDU.getUsername();
+                    parcelGender = parcelDU.getUserGender();
+                    parcelBerat = parcelDU.getUserBerat();
+                    parcelBangun = parcelDU.getUserBangun();
+                    parcelTidur = parcelDU.getUserTidur();
+                }
+                moveToMain();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     private void moveToMain() {
-        du = new DataUser(parcelEmail, parcelUsername, parcelGender, parcelBangun, parcelTidur, parcelBerat);
+        Log.d("PUSH", parcelDU.getUsername() + " " + parcelDU.getUserBerat() + " " + parcelDU.getUserBerat() + " " + parcelDU.getUserBangun() + " " + parcelDU.getUserTidur());
+        DataUser du = new DataUser(parcelEmail, parcelUsername, parcelGender, parcelBangun, parcelTidur, parcelBerat);
         Intent main = new Intent(getBaseContext(), MainActivity.class);
         main.putExtra(PARCEL, du);
         startActivity(main);

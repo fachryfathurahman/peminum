@@ -22,7 +22,9 @@ import com.kelsiraman.peminum.model.DataUser;
 import com.kelsiraman.peminum.pendaftaran.GenderActivity;
 
 public class SignUp extends AppCompatActivity {
+    private static final String PARCEL = "DATAUSER";
     private static final String TAG = "EmailPassword";
+    private String valueEmail, valueUsername;
     private FirebaseAuth mAuth;
     private EditText username, email, password, confirmPassword;
 
@@ -56,8 +58,8 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void inputForm() {
-        String valueUsername = username.getText().toString();
-        String valueEmail = email.getText().toString();
+        valueUsername = username.getText().toString();
+        valueEmail = email.getText().toString();
         String valuePassword = password.getText().toString();
         String valueConfirmPassword = confirmPassword.getText().toString();
 
@@ -85,8 +87,6 @@ public class SignUp extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "createUserWithEmail:success");
-                            DataUser du = new DataUser();
-                            du.setUsername(username.getText().toString());
                             moveToGenderActivity();
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -96,13 +96,16 @@ public class SignUp extends AppCompatActivity {
                 });
     }
 
+    private void moveToGenderActivity() {
+        DataUser parcelDU = new DataUser(valueEmail, valueUsername, null, null, null, 0);
+        Intent gender = new Intent(getBaseContext(), GenderActivity.class);
+        gender.putExtra(PARCEL, parcelDU);
+        startActivity(gender);
+    }
+
     public void moveToSignIn(){
         Intent signIn = new Intent(getBaseContext(),loginActivity.class);
         startActivity(signIn);
     }
 
-    public void moveToGenderActivity(){
-        Intent gender = new Intent(getBaseContext(), GenderActivity.class);
-        startActivity(gender);
-    }
 }

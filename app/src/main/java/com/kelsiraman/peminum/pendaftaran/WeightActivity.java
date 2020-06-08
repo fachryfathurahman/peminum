@@ -11,15 +11,14 @@ import com.kelsiraman.peminum.R;
 import com.kelsiraman.peminum.model.DataUser;
 
 public class WeightActivity extends AppCompatActivity {
-    private DataUser parcelDU;
     private static final String PARCEL = "DATAUSER";
+    private DataUser parcelDU;
     private NumberPicker weightPicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weight);
-
         parcelDU = getIntent().getParcelableExtra(PARCEL);
         weightPicker = findViewById(R.id.weightPicker);
         weightPicker.setMaxValue(150);

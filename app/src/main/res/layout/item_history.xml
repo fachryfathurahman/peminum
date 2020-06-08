@@ -21,7 +21,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.075"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.07" />
@@ -39,6 +39,7 @@
             android:id="@+id/imageView2"
             android:layout_width="24dp"
             android:layout_height="36dp"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view"
@@ -48,6 +49,7 @@
             android:id="@+id/imageView6"
             android:layout_width="24dp"
             android:layout_height="36dp"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view3"
@@ -57,13 +59,14 @@
             android:id="@+id/imageView8"
             android:layout_width="24dp"
             android:layout_height="36dp"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view6"
             app:srcCompat="@drawable/ic_glass_of_water" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/historyAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1 gelas 200ml"
@@ -73,7 +76,7 @@
             app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
         <TextView
-            android:id="@+id/textView14"
+            android:id="@+id/historyAmount2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1 gelas 200ml"
@@ -83,7 +86,7 @@
             app:layout_constraintTop_toTopOf="@+id/imageView6" />
 
         <TextView
-            android:id="@+id/textView16"
+            android:id="@+id/historyAmount3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1 gelas 200ml"
@@ -93,37 +96,37 @@
             app:layout_constraintTop_toTopOf="@+id/imageView8" />
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/historyTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10.20"
             app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-            app:layout_constraintEnd_toEndOf="@+id/textView11"
+            app:layout_constraintEnd_toEndOf="@+id/historyAmount"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/textView11"
-            app:layout_constraintTop_toBottomOf="@+id/textView11"
+            app:layout_constraintStart_toStartOf="@+id/historyAmount"
+            app:layout_constraintTop_toBottomOf="@+id/historyAmount"
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/textView15"
+            android:id="@+id/historyTime2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10.20"
-            app:layout_constraintEnd_toEndOf="@+id/textView14"
+            app:layout_constraintEnd_toEndOf="@+id/historyAmount2"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/textView14"
-            app:layout_constraintTop_toBottomOf="@+id/textView14" />
+            app:layout_constraintStart_toStartOf="@+id/historyAmount2"
+            app:layout_constraintTop_toBottomOf="@+id/historyAmount2" />
 
         <TextView
-            android:id="@+id/textView17"
+            android:id="@+id/historyTime3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10.20"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/textView16"
+            app:layout_constraintEnd_toEndOf="@+id/historyAmount3"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/textView16"
-            app:layout_constraintTop_toBottomOf="@+id/textView16"
+            app:layout_constraintStart_toStartOf="@+id/historyAmount3"
+            app:layout_constraintTop_toBottomOf="@+id/historyAmount3"
             app:layout_constraintVertical_bias="0.0" />
 
         <View
@@ -132,7 +135,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView15" />
+            app:layout_constraintTop_toBottomOf="@+id/historyTime2" />
 
         <View
             android:id="@+id/view3"
@@ -141,7 +144,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+            app:layout_constraintTop_toBottomOf="@+id/historyTime" />
 
         <TextView
             android:id="@+id/textView18"
@@ -153,7 +156,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView17"
+            app:layout_constraintTop_toBottomOf="@+id/historyTime3"
             app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

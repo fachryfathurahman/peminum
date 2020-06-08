@@ -2,8 +2,8 @@ package com.kelsiraman.peminum.mainlayout;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -12,11 +12,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.kelsiraman.peminum.R;
 import com.kelsiraman.peminum.mainlayout.ui.main.SectionsPagerAdapter;
-import com.kelsiraman.peminum.model.DataUser;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String PARCEL = "DATAUSER";
-    private DataUser parcelDU;
     private TabLayout tabs;
     private Context mContext;
     private int[] tabIcons = {
@@ -36,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
         setTabIcons();
-        parcelDU = getIntent().getParcelableExtra(PARCEL);
         final FloatingActionButton fab = findViewById(R.id.fab);
         fab.hide();
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -52,12 +48,6 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             //TODO tempat menaruh fungsi fab profil
-                            EditText pUsername = view.findViewById(R.id.profilUsername);
-                            EditText pBerat = view.findViewById(R.id.profilBerat);
-                            EditText pEmail = view.findViewById(R.id.profilEmail);
-                            pUsername.setText(parcelDU.getUsername());
-                            pBerat.setText(parcelDU.getUserBerat());
-                            pEmail.setText(parcelDU.getUserEmail());
                         }
                     });
                 }else{

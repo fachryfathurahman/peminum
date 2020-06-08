@@ -27,9 +27,11 @@ import com.kelsiraman.peminum.model.DataUser;
 
 public class loginActivity extends AppCompatActivity {
     private static final String PARCEL = "DATAUSER";
+    private DataUser du;
     private static final String TAG = "EmailPassword";
     private FirebaseAuth mAuth;
-    private String parcelUsername, parcelBerat, parcelEmail;
+    private String parcelEmail, parcelUsername, parcelGender, parcelBangun, parcelTidur;
+    private int parcelBerat;
     private EditText email, password;
 
     @Override
@@ -42,7 +44,6 @@ public class loginActivity extends AppCompatActivity {
         password = findViewById(R.id.siPassword);
         TextView moveToSignUp =  findViewById(R.id.moveToSignup);
         Button signIn = findViewById(R.id.signInButton);
-
         moveToSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,8 +72,7 @@ public class loginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "signInWithEmail:success");
-                            fetchData();
-                            moveToMain();
+                            fetchDataAndToMain();
                         } else {
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(loginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
@@ -81,14 +81,18 @@ public class loginActivity extends AppCompatActivity {
                 });
     }
 
-    private void fetchData() {
+    private void fetchDataAndToMain() {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
         database.child("DataUser").child(mAuth.getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         parcelUsername = dataSnapshot.child("username").getValue(String.class);
-                        parcelBerat = dataSnapshot.child("userBerat").getValue(String.class);
+                        parcelGender = dataSnapshot.child("userGender").getValue(String.class);
+                        parcelBerat = Integer.parseInt(dataSnapshot.child("userBerat").getValue(String.class));
+                        parcelBangun = dataSnapshot.child("userBangun").getValue(String.class);
+                        parcelTidur = dataSnapshot.child("userTidur").getValue(String.class);
+                        moveToMain();
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -98,15 +102,15 @@ public class loginActivity extends AppCompatActivity {
         parcelEmail = user.getEmail();
     }
 
-    public void moveToSignUp(){
-        Intent intent  = new Intent(getBaseContext(),SignUp.class);
-        startActivity(intent);
-    }
-
-    public void moveToMain(){
-        DataUser du = new DataUser(parcelEmail, parcelUsername, null, null, null, Integer.parseInt(parcelBerat));
+    private void moveToMain() {
+        du = new DataUser(parcelEmail, parcelUsername, parcelGender, parcelBangun, parcelTidur, parcelBerat);
         Intent main = new Intent(getBaseContext(), MainActivity.class);
         main.putExtra(PARCEL, du);
         startActivity(main);
+    }
+
+    public void moveToSignUp(){
+        Intent intent  = new Intent(getBaseContext(),SignUp.class);
+        startActivity(intent);
     }
 }

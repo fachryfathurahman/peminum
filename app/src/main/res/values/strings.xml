@@ -11,7 +11,7 @@
     <string name="alreadyhaveaccount">Already have an account?</string>
     <string name="signIn">Sign In</string>
     <string name="next">Next</string>
-    <string name="berat_badan">Berat Badan</string>
+    <string name="berat_badan">Berat Badan (kg)</string>
     <string name="back">Back</string>
     <string name="waktu_bangun">Waktu Bangun</string>
     <string name="waktu_tidur">Waktu Tidur</string>

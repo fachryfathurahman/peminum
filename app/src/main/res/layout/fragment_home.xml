@@ -3,12 +3,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     tools:context=".mainlayout.home.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/home_tab_text" />
+        android:layout_height="match_parent">
+
+        <com.github.lzyzsd.circleprogress.ArcProgress
+            android:id="@+id/arc_progress"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:layout_gravity="center"
+            android:background="@color/white"
+            custom:arc_finished_color="@color/themeColor"
+            custom:arc_progress="55"
+            custom:arc_stroke_width="8dp"
+            custom:arc_text_color="@color/white"
+            custom:arc_unfinished_color="@android:color/darker_gray"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintHorizontal_bias="0.497"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toBottomOf="@+id/textView23"
+            custom:layout_constraintVertical_bias="0.134">
+
+        </com.github.lzyzsd.circleprogress.ArcProgress>
+
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/ic_gender_symbols_grey"
+            custom:layout_constraintBottom_toBottomOf="@+id/arc_progress"
+            custom:layout_constraintEnd_toEndOf="@+id/arc_progress"
+            custom:layout_constraintStart_toStartOf="@+id/arc_progress"
+            custom:layout_constraintTop_toTopOf="@+id/arc_progress" />
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1972"
+            android:textSize="20sp"
+            custom:layout_constraintBottom_toBottomOf="@+id/imageView9"
+            custom:layout_constraintEnd_toEndOf="@+id/imageView9"
+            custom:layout_constraintHorizontal_bias="0.195"
+            custom:layout_constraintStart_toStartOf="@+id/imageView9"
+            custom:layout_constraintTop_toTopOf="@+id/imageView9"
+            custom:layout_constraintVertical_bias="0.231" />
+
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="/1972 ml"
+            android:textColor="@color/themeColor"
+            android:textSize="24sp"
+            custom:layout_constraintBaseline_toBaselineOf="@+id/textView21"
+            custom:layout_constraintEnd_toEndOf="@+id/imageView9"
+            custom:layout_constraintHorizontal_bias="0.0"
+            custom:layout_constraintStart_toEndOf="@+id/textView21" />
+
+        <TextView
+            android:id="@+id/textView23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/micross"
+            android:text="@string/greeting"
+            android:textSize="18sp"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintHorizontal_bias="0.172"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toTopOf="parent"
+            custom:layout_constraintVertical_bias="0.04" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
 
 </FrameLayout>

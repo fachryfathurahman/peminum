@@ -41,17 +41,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onPageSelected(int position) {
-                if ((position == 0)) {
-                    fab.hide();
-                } else if (position == 1){
-                    fab.hide();
-                    fab.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            //TODO tempat menaruh fungsi fab history
-                        }
-                    });
-                }else{
+                if ((position == 2)) {
                     fab.show();
                     fab.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -59,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
                             //TODO tempat menaruh fungsi fab profil
                         }
                     });
+                }else{
+                    fab.hide();
                 }
             }
 

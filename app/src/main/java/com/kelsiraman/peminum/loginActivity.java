@@ -20,12 +20,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.kelsiraman.peminum.mainlayout.MainActivity;
 
 public class loginActivity extends AppCompatActivity {
-
     private static final String TAG = "EmailPassword";
     private FirebaseAuth mAuth;
-
     private Button signIn;
-    private EditText username, password;
+    private EditText email, password;
     private TextView moveToSignUp;
 
     @Override
@@ -34,27 +32,10 @@ public class loginActivity extends AppCompatActivity {
         setContentView(R.layout.login);
 
         mAuth = FirebaseAuth.getInstance();
-
-        username = findViewById(R.id.siEmail);
+        email = findViewById(R.id.siEmail);
         password = findViewById(R.id.siPassword);
         moveToSignUp =  findViewById(R.id.moveToSignup);
         signIn = findViewById(R.id.signInButton);
-
-        signIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String valueUsername = username.getText().toString();
-                String valuePassword = password.getText().toString();
-
-                String email = valueUsername + "@yespapa.com";
-                if(valueUsername.isEmpty() || valuePassword.isEmpty()){
-                    Toast.makeText(loginActivity.this, "Form Tidak Lengkap", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "Form Gak Lengkap");
-                    return;
-                }
-                loginAccount(email.toLowerCase(), valuePassword);
-            }
-        });
 
         moveToSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +43,21 @@ public class loginActivity extends AppCompatActivity {
                 moveToSignUp();
             }
         });
+        signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String valueEmail = email.getText().toString();
+                String valuePassword = password.getText().toString();
+
+                if(valueEmail.isEmpty() || valuePassword.isEmpty()){
+                    Toast.makeText(loginActivity.this, "Form Tidak Lengkap", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Form Gak Lengkap");
+                    return;
+                }
+                loginAccount(valueEmail, valuePassword);
+            }
+        });
+
     }
 
     public void loginAccount(String email, String password){
@@ -74,11 +70,9 @@ public class loginActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             moveToMain();
-                            //updateUI(user);
                         } else {
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(loginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
                         }
                     }
                 });

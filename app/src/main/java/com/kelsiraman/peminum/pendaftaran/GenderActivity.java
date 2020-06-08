@@ -17,7 +17,7 @@ import com.kelsiraman.peminum.R;
 import com.kelsiraman.peminum.model.DataUser;
 
 public class GenderActivity extends AppCompatActivity implements View.OnClickListener {
-    private DataUser parcelDU, du;
+    private DataUser du;
     private static final String PARCEL = "DATAUSER";
     private ImageView maleImageView, femaleImageView;
     private TextView genderTextView;
@@ -52,9 +52,9 @@ public class GenderActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void openWeightActivity(View view){
-        du = new DataUser("Joni", du.getUserGender(), null, null, 0);
+        DataUser parcelDU = new DataUser("joni@yespapa.com", "Joni", du.getUserGender(), null, null, 0);
         Intent intent = new Intent(this, WeightActivity.class);
-        intent.putExtra(PARCEL, du);
+        intent.putExtra(PARCEL, parcelDU);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
     }

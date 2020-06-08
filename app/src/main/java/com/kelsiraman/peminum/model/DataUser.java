@@ -4,19 +4,28 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class DataUser implements Parcelable {
-    private String username, userGender, userBangun, userTidur;
+    private String userEmail, username, userGender, userBangun, userTidur;
     private int userBerat;
 
     public DataUser(){
 
     }
 
-    public DataUser(String username, String userGender, String userBangun, String userTidur, int userBerat) {
+    public DataUser(String userEmail, String username, String userGender, String userBangun, String userTidur, int userBerat) {
+        this.userEmail = userEmail;
         this.username = username;
         this.userGender = userGender;
         this.userBangun = userBangun;
         this.userTidur = userTidur;
         this.userBerat = userBerat;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public String getUsername() {
@@ -66,6 +75,7 @@ public class DataUser implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.userEmail);
         dest.writeString(this.username);
         dest.writeString(this.userGender);
         dest.writeString(this.userBangun);
@@ -74,6 +84,7 @@ public class DataUser implements Parcelable {
     }
 
     protected DataUser(Parcel in) {
+        this.userEmail = in.readString();
         this.username = in.readString();
         this.userGender = in.readString();
         this.userBangun = in.readString();

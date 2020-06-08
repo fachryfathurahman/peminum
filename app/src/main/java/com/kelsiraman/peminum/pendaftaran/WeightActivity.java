@@ -32,7 +32,7 @@ public class WeightActivity extends AppCompatActivity {
     }
 
     public void WeightNextButtonOnClick(View view){
-        DataUser du = new DataUser(parcelDU.getUsername(), parcelDU.getUserGender(), null, null, weightPicker.getValue());
+        DataUser du = new DataUser(parcelDU.getUserEmail(), parcelDU.getUsername(), parcelDU.getUserGender(), null, null, weightPicker.getValue());
         Intent intent = new Intent(this, WakeUpTimeActivity.class);
         intent.putExtra(PARCEL, du);
         startActivity(intent);

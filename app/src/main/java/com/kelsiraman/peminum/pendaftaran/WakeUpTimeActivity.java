@@ -29,7 +29,7 @@ public class WakeUpTimeActivity extends AppCompatActivity {
     }
 
     public void WakeUpNextButtonOnClick(View view){
-        DataUser du = new DataUser(parcelDU.getUsername(), parcelDU.getUserGender(), getWaktuBangun(), null, parcelDU.getUserBerat());
+        DataUser du = new DataUser(parcelDU.getUserEmail(), parcelDU.getUsername(), parcelDU.getUserGender(), getWaktuBangun(), null, parcelDU.getUserBerat());
         Intent intent = new Intent(this, SleepTimeActivity.class);
         intent.putExtra(PARCEL, du);
         startActivity(intent);

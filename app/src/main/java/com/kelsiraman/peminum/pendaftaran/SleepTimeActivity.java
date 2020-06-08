@@ -33,7 +33,7 @@ public class SleepTimeActivity extends AppCompatActivity {
     }
 
     public void SleepNextButtonOnClick(View view){
-        du = new DataUser(parcelDU.getUsername(), parcelDU.getUserGender(), parcelDU.getUserBangun(), getWaktuTidur(), parcelDU.getUserBerat());
+        du = new DataUser(parcelDU.getUserEmail(), parcelDU.getUsername(), parcelDU.getUserGender(), parcelDU.getUserBangun(), getWaktuTidur(), parcelDU.getUserBerat());
         pushToDatabase();
         moveToMain();
     }

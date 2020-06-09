@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.kelsiraman.peminum.R;
 import com.kelsiraman.peminum.model.DataUser;
+import com.kelsiraman.peminum.model.SignUpModel;
 
 public class GenderActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String PARCEL = "DATAUSER";
@@ -56,6 +58,9 @@ public class GenderActivity extends AppCompatActivity implements View.OnClickLis
         DataUser parcelDU = new DataUser(parcelDariSU.getUserEmail(), parcelDariSU.getUsername(), du.getUserGender(), null, null, 0);
         Intent intent = new Intent(this, WeightActivity.class);
         intent.putExtra(PARCEL, parcelDU);
+        SignUpModel parcelSU = getIntent().getParcelableExtra("PARCELSU");
+        parcelSU = new SignUpModel(parcelSU.getEmail(), parcelSU.getPassword());
+        intent.putExtra("PARCELSU", parcelSU);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
     }

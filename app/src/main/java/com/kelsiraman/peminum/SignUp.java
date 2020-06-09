@@ -2,7 +2,6 @@ package com.kelsiraman.peminum;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,27 +10,19 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.kelsiraman.peminum.model.DataUser;
+import com.kelsiraman.peminum.model.SignUpModel;
 import com.kelsiraman.peminum.pendaftaran.GenderActivity;
 
 public class SignUp extends AppCompatActivity {
     private static final String PARCEL = "DATAUSER";
-    private static final String TAG = "EmailPassword";
-    private String valueEmail, valueUsername;
-    private FirebaseAuth mAuth;
+    private String valueEmail, valueUsername, valuePassword;
     private EditText username, email, password, confirmPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        mAuth = FirebaseAuth.getInstance();
         username = findViewById(R.id.suUsername);
         email = findViewById(R.id.suEmail);
         password = findViewById(R.id.suPassword);
@@ -62,7 +53,7 @@ public class SignUp extends AppCompatActivity {
     private void inputForm() {
         valueUsername = username.getText().toString();
         valueEmail = email.getText().toString();
-        String valuePassword = password.getText().toString();
+        valuePassword = password.getText().toString();
         String valueConfirmPassword = confirmPassword.getText().toString();
 
         if (valueUsername.isEmpty() || valueEmail.isEmpty() || valuePassword.isEmpty() || valueConfirmPassword.isEmpty()) {
@@ -78,28 +69,15 @@ public class SignUp extends AppCompatActivity {
             confirmPassword.setText("");
             return;
         }
-        createAccount(valueEmail, valuePassword);
-    }
-
-    private void createAccount(String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email, password).
-                addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            moveToGenderActivity();
-                        } else {
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(SignUp.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+        moveToGenderActivity();
     }
 
     private void moveToGenderActivity() {
         DataUser parcelDU = new DataUser(valueEmail, valueUsername, null, null, null, 0);
         Intent gender = new Intent(getBaseContext(), GenderActivity.class);
         gender.putExtra(PARCEL, parcelDU);
+        SignUpModel parcelSU = new SignUpModel(valueEmail, valuePassword);
+        gender.putExtra("PARCELSU", parcelSU);
         startActivity(gender);
     }
 

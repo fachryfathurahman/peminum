@@ -52,10 +52,19 @@ public class HomeFragment extends Fragment {
         mContext = getContext();
         DataUser parcelDU = getActivity().getIntent().getParcelableExtra(PARCEL);
         format = new SimpleDateFormat("HH:mm");
+        hitungWaktuMinum(parcelDU);
+
+        //TODO hapus method ini dan ganti dengan method mengisi data list
+//        SetDataKosong();
+        setAdapter(view);
+    }
+
+    private void hitungWaktuMinum(DataUser parcelDU) {
         int banyakMenit = hitungBanyakMenit(parcelDU);
         double takaran = hitungTakaran(parcelDU);
         double sekaliMinum = takaran / 10.0;
         double jedaMinum = banyakMenit / 10.0;
+        sekaliMinum = Double.parseDouble(new DecimalFormat("#.##").format(sekaliMinum));
         try {
             awalAlarm = format.parse(parcelDU.getUserBangun());
             akhirAlarm = format.parse(parcelDU.getUserTidur());
@@ -73,10 +82,10 @@ public class HomeFragment extends Fragment {
         for (int i = 0; i < 10; i++) {
             Log.d("MICIN", alarm[i]);
         }
-
-        //TODO hapus method ini dan ganti dengan method mengisi data list
-        SetDataKosong();
-        setAdapter(view);
+        for (int i = 0; i < 10; i++) {
+            UpcomingModel model = new UpcomingModel(sekaliMinum + " ml",alarm[i]);
+            list.add(model);
+        }
     }
 
     private void SetDataKosong() {

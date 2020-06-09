@@ -1,6 +1,7 @@
 package com.kelsiraman.peminum;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.kelsiraman.peminum.config.Konfigurasi;
 import com.kelsiraman.peminum.mainlayout.MainActivity;
 import com.kelsiraman.peminum.model.DataUser;
 
@@ -39,29 +41,40 @@ public class loginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        mAuth = FirebaseAuth.getInstance();
-        email = findViewById(R.id.siEmail);
-        password = findViewById(R.id.siPassword);
-        TextView moveToSignUp =  findViewById(R.id.moveToSignup);
-        Button signIn = findViewById(R.id.signInButton);
-        moveToSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                moveToSignUp();
-            }
-        });
-        signIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String valueEmail = email.getText().toString();
-                String valuePassword = password.getText().toString();
-                if(valueEmail.isEmpty() || valuePassword.isEmpty()){
-                    Toast.makeText(loginActivity.this, "Form Tidak Lengkap", Toast.LENGTH_SHORT).show();
-                    return;
+        SharedPreferences sp =getSharedPreferences(Konfigurasi.LOGINPREF,MODE_PRIVATE);
+        if (sp.getBoolean(Konfigurasi.LOGGED, true)){
+            parcelEmail = sp.getString(Konfigurasi.EMAIL,"undefined");
+            parcelUsername = sp.getString(Konfigurasi.USERNAME,"undefined");
+            parcelGender = sp.getString(Konfigurasi.GENDER,"undefined");
+            parcelBangun = sp.getString(Konfigurasi.BANGUN,"undefined");
+            parcelTidur = sp.getString(Konfigurasi.TIDUR,"undefined");
+            parcelBerat = sp.getInt(Konfigurasi.BERAT,0);
+            moveToMain();
+        }else {
+            mAuth = FirebaseAuth.getInstance();
+            email = findViewById(R.id.siEmail);
+            password = findViewById(R.id.siPassword);
+            TextView moveToSignUp =  findViewById(R.id.moveToSignup);
+            Button signIn = findViewById(R.id.signInButton);
+            moveToSignUp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    moveToSignUp();
                 }
-                loginAccount(valueEmail, valuePassword);
-            }
-        });
+            });
+            signIn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String valueEmail = email.getText().toString();
+                    String valuePassword = password.getText().toString();
+                    if(valueEmail.isEmpty() || valuePassword.isEmpty()){
+                        Toast.makeText(loginActivity.this, "Form Tidak Lengkap", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    loginAccount(valueEmail, valuePassword);
+                }
+            });
+        }
 
     }
 
@@ -102,6 +115,7 @@ public class loginActivity extends AppCompatActivity {
                     parcelBangun = parcelDU.getUserBangun();
                     parcelTidur = parcelDU.getUserTidur();
                 }
+                saveDatePref();
                 moveToMain();
             }
             @Override
@@ -110,8 +124,20 @@ public class loginActivity extends AppCompatActivity {
         });
     }
 
+    private void saveDatePref() {
+        SharedPreferences sp = getSharedPreferences(Konfigurasi.LOGINPREF, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(Konfigurasi.USERNAME,parcelEmail);
+        editor.putString(Konfigurasi.EMAIL,parcelEmail);
+        editor.putString(Konfigurasi.GENDER, parcelGender);
+        editor.putString(Konfigurasi.BANGUN,parcelBangun);
+        editor.putString(Konfigurasi.TIDUR,parcelTidur);
+        editor.putInt(Konfigurasi.BERAT,parcelBerat);
+        editor.putBoolean(Konfigurasi.LOGGED,true);
+        editor.apply();
+    }
+
     private void moveToMain() {
-        Log.d("PUSH", parcelDU.getUsername() + " " + parcelDU.getUserBerat() + " " + parcelDU.getUserBerat() + " " + parcelDU.getUserBangun() + " " + parcelDU.getUserTidur());
         DataUser du = new DataUser(parcelEmail, parcelUsername, parcelGender, parcelBangun, parcelTidur, parcelBerat);
         Intent main = new Intent(getBaseContext(), MainActivity.class);
         main.putExtra(PARCEL, du);

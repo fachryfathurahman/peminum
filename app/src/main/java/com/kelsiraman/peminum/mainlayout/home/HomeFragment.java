@@ -12,32 +12,34 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
+import com.github.lzyzsd.circleprogress.ArcProgress;
 import com.kelsiraman.peminum.R;
 import com.kelsiraman.peminum.mainlayout.home.recycleview.RecycleViewAdapter;
 import com.kelsiraman.peminum.model.DataUser;
 import com.kelsiraman.peminum.model.UpcomingModel;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnClickListener {
     private static final String PARCEL = "DATAUSER";
     private Date awalAlarm, akhirAlarm;
     private SimpleDateFormat format;
     private RecycleViewAdapter adapter;
     private ArrayList<UpcomingModel> list = new ArrayList<>();
     private Context mContext;
-
+    private ImageButton btnTambahAir;
+    private ArcProgress arcProgress;
+    private int progress;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -55,6 +57,15 @@ public class HomeFragment extends Fragment {
         format = new SimpleDateFormat("HH:mm");
         hitungWaktuMinum(parcelDU);
         setAdapter(view);
+
+        arcProgress = view.findViewById(R.id.arc_progress);
+        btnTambahAir = view.findViewById(R.id.minumAir);
+        btnTambahAir.setOnClickListener(this);
+
+        //todo ganti dengan progrees
+        //warning : value ini akan kembali 0 jika di mulai app lagi
+        progress = 0;
+
     }
 
     private void setAdapter(View view) {
@@ -66,8 +77,7 @@ public class HomeFragment extends Fragment {
     }
 
     private double hitungTakaran(DataUser parcelDU) {
-        double takaran = (((parcelDU.getUserBerat() * 2.205) * (2.0 / 3.0)) / 33.814) * 1000.0;
-        return takaran;
+        return (((parcelDU.getUserBerat() * 2.205) * (2.0 / 3.0)) / 33.814) * 1000.0;
     }
 
     private int hitungBanyakMenit(DataUser parcelDU) {
@@ -114,5 +124,17 @@ public class HomeFragment extends Fragment {
         HomeFragment fragment = new HomeFragment();
 
         return fragment;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.minumAir:
+                //todo tambahkan exception waktu supaya progress tida di tekan sembarangan
+                if (arcProgress.getProgress()<100){
+                    arcProgress.setProgress(progress++);
+                }
+                break;
+        }
     }
 }

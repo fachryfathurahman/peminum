@@ -3,6 +3,7 @@ package com.kelsiraman.peminum.onboardingscreen;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.transition.Slide;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kelsiraman.peminum.R;
+import com.kelsiraman.peminum.loginActivity;
 
 public class onBoardingActivity extends AppCompatActivity {
 
@@ -68,6 +70,12 @@ public class onBoardingActivity extends AppCompatActivity {
 
             if (position == (mDots.length-1)){
                 getStarted.setVisibility(View.VISIBLE);
+                getStarted.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(onBoardingActivity.this, loginActivity.class));
+                    }
+                });
             }
             else {
                 getStarted.setVisibility(View.INVISIBLE);

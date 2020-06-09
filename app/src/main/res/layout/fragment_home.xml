@@ -16,7 +16,7 @@
             android:layout_height="240dp"
             android:layout_gravity="center"
             custom:arc_finished_color="@color/themeColor"
-            custom:arc_progress="55"
+            custom:arc_progress="0"
             custom:arc_stroke_width="8dp"
             custom:arc_text_color="@color/white"
             custom:arc_unfinished_color="@android:color/darker_gray"
@@ -29,11 +29,12 @@
 
         </com.github.lzyzsd.circleprogress.ArcProgress>
 
-        <ImageView
+        <ImageButton
             android:id="@+id/minumAir"
             android:layout_width="230dp"
             android:layout_height="230dp"
-            android:src="@drawable/ic_jadisatu"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="@drawable/ic_jadisatu"
             custom:layout_constraintBottom_toBottomOf="@+id/arc_progress"
             custom:layout_constraintEnd_toEndOf="@+id/arc_progress"
             custom:layout_constraintStart_toStartOf="@+id/arc_progress"
@@ -47,10 +48,10 @@
             android:textSize="20sp"
             custom:layout_constraintBottom_toBottomOf="@+id/minumAir"
             custom:layout_constraintEnd_toEndOf="@+id/minumAir"
-            custom:layout_constraintHorizontal_bias="0.195"
+            custom:layout_constraintHorizontal_bias="0.244"
             custom:layout_constraintStart_toStartOf="@+id/minumAir"
             custom:layout_constraintTop_toTopOf="@+id/minumAir"
-            custom:layout_constraintVertical_bias="0.231" />
+            custom:layout_constraintVertical_bias="0.236" />
 
         <TextView
             android:id="@+id/textView22"

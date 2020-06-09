@@ -41,6 +41,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     public int getItemCount() {
         return upcomingData.size();
     }
+
     @Override
     public int getItemViewType(int position) {
         return position;

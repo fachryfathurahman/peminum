@@ -30,7 +30,7 @@
         </com.github.lzyzsd.circleprogress.ArcProgress>
 
         <ImageView
-            android:id="@+id/imageView9"
+            android:id="@+id/minumAir"
             android:layout_width="230dp"
             android:layout_height="230dp"
             android:src="@drawable/ic_jadisatu"
@@ -45,11 +45,11 @@
             android:layout_height="wrap_content"
             android:text="1972"
             android:textSize="20sp"
-            custom:layout_constraintBottom_toBottomOf="@+id/imageView9"
-            custom:layout_constraintEnd_toEndOf="@+id/imageView9"
+            custom:layout_constraintBottom_toBottomOf="@+id/minumAir"
+            custom:layout_constraintEnd_toEndOf="@+id/minumAir"
             custom:layout_constraintHorizontal_bias="0.195"
-            custom:layout_constraintStart_toStartOf="@+id/imageView9"
-            custom:layout_constraintTop_toTopOf="@+id/imageView9"
+            custom:layout_constraintStart_toStartOf="@+id/minumAir"
+            custom:layout_constraintTop_toTopOf="@+id/minumAir"
             custom:layout_constraintVertical_bias="0.231" />
 
         <TextView
@@ -60,7 +60,7 @@
             android:textColor="@color/themeColor"
             android:textSize="24sp"
             custom:layout_constraintBaseline_toBaselineOf="@+id/textView21"
-            custom:layout_constraintEnd_toEndOf="@+id/imageView9"
+            custom:layout_constraintEnd_toEndOf="@+id/minumAir"
             custom:layout_constraintHorizontal_bias="0.0"
             custom:layout_constraintStart_toEndOf="@+id/textView21" />
 

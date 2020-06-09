@@ -20,8 +20,10 @@ import com.kelsiraman.peminum.model.DataUser;
 import com.kelsiraman.peminum.model.UpcomingModel;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -29,6 +31,8 @@ import java.util.Date;
  */
 public class HomeFragment extends Fragment {
     private static final String PARCEL = "DATAUSER";
+    private Date awalAlarm, akhirAlarm;
+    private SimpleDateFormat format;
     private RecycleViewAdapter adapter;
     private ArrayList<UpcomingModel> list = new ArrayList<>();
     private Context mContext;
@@ -36,7 +40,6 @@ public class HomeFragment extends Fragment {
     public HomeFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,8 +51,28 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mContext = getContext();
         DataUser parcelDU = getActivity().getIntent().getParcelableExtra(PARCEL);
+        format = new SimpleDateFormat("HH:mm");
         int banyakMenit = hitungBanyakMenit(parcelDU);
         double takaran = hitungTakaran(parcelDU);
+        double sekaliMinum = takaran / 10.0;
+        double jedaMinum = banyakMenit / 10.0;
+        try {
+            awalAlarm = format.parse(parcelDU.getUserBangun());
+            akhirAlarm = format.parse(parcelDU.getUserTidur());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(awalAlarm);
+        String[] alarm = new String[10];
+        alarm[0] = format.format(awalAlarm);
+        for (int i = 1; i < 10; i++){
+            cal.add(Calendar.MINUTE, (int) jedaMinum);
+            alarm[i] = format.format(cal.getTime());
+        }
+        for (int i = 0; i < 10; i++) {
+            Log.d("MICIN", alarm[i]);
+        }
 
         //TODO hapus method ini dan ganti dengan method mengisi data list
         SetDataKosong();
@@ -78,7 +101,6 @@ public class HomeFragment extends Fragment {
     }
 
     private int hitungBanyakMenit(DataUser parcelDU) {
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         int banyakMenit = 0;
         try {
             Date bangun = format.parse(parcelDU.getUserBangun());
@@ -95,6 +117,5 @@ public class HomeFragment extends Fragment {
         HomeFragment fragment = new HomeFragment();
 
         return fragment;
-
     }
 }

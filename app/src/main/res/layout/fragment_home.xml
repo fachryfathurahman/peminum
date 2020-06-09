@@ -16,7 +16,7 @@
             android:layout_height="240dp"
             android:layout_gravity="center"
             custom:arc_finished_color="@color/themeColor"
-            custom:arc_progress="55"
+            custom:arc_progress="0"
             custom:arc_stroke_width="8dp"
             custom:arc_text_color="@color/white"
             custom:arc_unfinished_color="@android:color/darker_gray"
@@ -29,10 +29,10 @@
 
         </com.github.lzyzsd.circleprogress.ArcProgress>
 
-        <ImageView
-            android:id="@+id/minumAir"
+
+
         <Button
-            android:id="@+id/imageView9"
+            android:id="@+id/minumAir"
             android:layout_width="230dp"
             android:layout_height="230dp"
             android:background="@drawable/drink"
@@ -45,7 +45,6 @@
             android:id="@+id/textView21"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="4dp"
             android:text="1972"
             android:textSize="20sp"
             custom:layout_constraintBottom_toBottomOf="@+id/minumAir"

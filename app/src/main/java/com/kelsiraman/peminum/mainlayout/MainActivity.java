@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -34,32 +35,8 @@ public class MainActivity extends AppCompatActivity {
         tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
         setTabIcons();
-        final FloatingActionButton fab = findViewById(R.id.fab);
-        fab.hide();
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
-            @Override
-            public void onPageSelected(int position) {
-                if ((position == 2)) {
-                    fab.show();
-                    fab.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            //TODO tempat menaruh fungsi fab profil
-                        }
-                    });
-                }else{
-                    fab.hide();
-                }
-            }
-            @Override
-            public void onPageScrollStateChanged(int state) {
 
-            }
-        });
     }
 
     @Override

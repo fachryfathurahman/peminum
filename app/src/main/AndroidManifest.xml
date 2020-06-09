@@ -18,7 +18,10 @@
         </activity>
         <activity
             android:name=".SplashScreen">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".onboardingscreen.onBoardingActivity" />
         <activity android:name=".pendaftaran.SleepTimeActivity" />
@@ -28,10 +31,6 @@
         <activity android:name=".loginActivity" />
         <activity
             android:name=".SignUp" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <receiver android:name=".Notif"
             android:enabled="true"

@@ -2,6 +2,8 @@ package com.kelsiraman.peminum.mainlayout.home;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -27,6 +29,11 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_home, container, false);
         DataUser parcelDU = getActivity().getIntent().getParcelableExtra(PARCEL);
@@ -39,7 +46,6 @@ public class HomeFragment extends Fragment {
     private double hitungTakaran(DataUser parcelDU) {
         double takaran = (((parcelDU.getUserBerat() * 2.205) * (2.0 / 3.0)) / 33.814) * 1000.0;
         takaran = Double.parseDouble(new DecimalFormat("#.##").format(takaran));
-        Log.d("HITUNG", takaran + " ml");
         return takaran;
     }
 
@@ -51,7 +57,6 @@ public class HomeFragment extends Fragment {
             Date tidur = format.parse(parcelDU.getUserTidur());
             long durasi = tidur.getTime() - bangun.getTime();
             banyakMenit = (int) durasi / (60 * 1000) ;
-            Log.d("HITUNG", banyakMenit + " minutes");
         } catch (Exception e) {
             e.printStackTrace();
         }

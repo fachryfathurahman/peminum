@@ -28,8 +28,8 @@ public class Notif extends BroadcastReceiver {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("MINUM WOY")
-                .setContentText("200ML ya")
+                .setContentTitle("Waktunys Minum")
+                .setContentText("250ML air putih")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
                 .setContentIntent(addPendingIntent)

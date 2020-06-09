@@ -65,6 +65,12 @@ public class loginActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
+    }
+
     public void loginAccount(String email, String password){
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -85,7 +91,7 @@ public class loginActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
         parcelEmail = user.getEmail();
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        database.child("DataUser").child(mAuth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        database.child("DataUser").child(mAuth.getUid()).child("Profil").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()){

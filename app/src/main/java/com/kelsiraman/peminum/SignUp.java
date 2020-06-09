@@ -17,7 +17,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.kelsiraman.peminum.mainlayout.MainActivity;
 import com.kelsiraman.peminum.model.DataUser;
 import com.kelsiraman.peminum.pendaftaran.GenderActivity;
 
@@ -32,13 +31,11 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
         mAuth = FirebaseAuth.getInstance();
         username = findViewById(R.id.suUsername);
         email = findViewById(R.id.suEmail);
         password = findViewById(R.id.suPassword);
         confirmPassword = findViewById(R.id.suConfirmPassword);
-
         Button signUp = findViewById(R.id.signupButton);
         TextView signIn = findViewById(R.id.moveToSignIn);
 
@@ -48,13 +45,18 @@ public class SignUp extends AppCompatActivity {
                 inputForm();
             }
         });
-
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 moveToSignIn();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
     }
 
     private void inputForm() {
@@ -80,13 +82,11 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void createAccount(String email, String password) {
-        Log.d(TAG, "createAccount:" + email);
         mAuth.createUserWithEmailAndPassword(email, password).
                 addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Log.d(TAG, "createUserWithEmail:success");
                             moveToGenderActivity();
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());

@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -36,7 +35,6 @@ public class SleepTimeActivity extends AppCompatActivity {
     }
 
     public void SleepNextButtonOnClick(View view){
-        Log.d("parcelDariSU", parcelDU.getUserEmail() + " " + parcelDU.getUsername() + " " + parcelDU.getUserGender() + " " + parcelDU.getUserBerat() + " " + parcelDU.getUserBangun() + " " + getWaktuTidur());
         du = new DataUser(parcelDU.getUserEmail(), parcelDU.getUsername(), parcelDU.getUserGender(), parcelDU.getUserBangun(), getWaktuTidur(), parcelDU.getUserBerat());
         pushToDatabase();
         moveToMain();
@@ -52,7 +50,7 @@ public class SleepTimeActivity extends AppCompatActivity {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String getUserID = auth.getCurrentUser().getUid();
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        database.child("DataUser").child(getUserID).push()
+        database.child("DataUser").child(getUserID).child("Profil").push()
                 .setValue(new DataUser(parcelDU.getUserEmail(), parcelDU.getUsername(), parcelDU.getUserGender(), parcelDU.getUserBangun(), getWaktuTidur(), parcelDU.getUserBerat()))
                 .addOnSuccessListener(this, new OnSuccessListener() {
                     @Override

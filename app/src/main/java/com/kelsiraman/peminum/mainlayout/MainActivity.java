@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.kelsiraman.peminum.R;
 import com.kelsiraman.peminum.mainlayout.ui.main.SectionsPagerAdapter;
 
@@ -54,12 +55,19 @@ public class MainActivity extends AppCompatActivity {
                     fab.hide();
                 }
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.signOut();
+        finishAffinity();
     }
 
     public void setTabIcons(){

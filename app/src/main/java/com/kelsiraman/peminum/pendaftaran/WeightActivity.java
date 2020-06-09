@@ -9,6 +9,7 @@ import android.widget.NumberPicker;
 
 import com.kelsiraman.peminum.R;
 import com.kelsiraman.peminum.model.DataUser;
+import com.kelsiraman.peminum.model.SignUpModel;
 
 public class WeightActivity extends AppCompatActivity {
     private static final String PARCEL = "DATAUSER";
@@ -34,6 +35,9 @@ public class WeightActivity extends AppCompatActivity {
         DataUser du = new DataUser(parcelDU.getUserEmail(), parcelDU.getUsername(), parcelDU.getUserGender(), null, null, weightPicker.getValue());
         Intent intent = new Intent(this, WakeUpTimeActivity.class);
         intent.putExtra(PARCEL, du);
+        SignUpModel parcelSU = getIntent().getParcelableExtra("PARCELSU");
+        parcelSU = new SignUpModel(parcelSU.getEmail(), parcelSU.getPassword());
+        intent.putExtra("PARCELSU", parcelSU);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
     }

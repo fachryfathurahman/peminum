@@ -9,6 +9,7 @@ import android.widget.TimePicker;
 
 import com.kelsiraman.peminum.R;
 import com.kelsiraman.peminum.model.DataUser;
+import com.kelsiraman.peminum.model.SignUpModel;
 
 public class WakeUpTimeActivity extends AppCompatActivity {
     private static final String PARCEL = "DATAUSER";
@@ -31,6 +32,9 @@ public class WakeUpTimeActivity extends AppCompatActivity {
         DataUser du = new DataUser(parcelDU.getUserEmail(), parcelDU.getUsername(), parcelDU.getUserGender(), getWaktuBangun(), null, parcelDU.getUserBerat());
         Intent intent = new Intent(this, SleepTimeActivity.class);
         intent.putExtra(PARCEL, du);
+        SignUpModel parcelSU = getIntent().getParcelableExtra("PARCELSU");
+        parcelSU = new SignUpModel(parcelSU.getEmail(), parcelSU.getPassword());
+        intent.putExtra("PARCELSU", parcelSU);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
     }

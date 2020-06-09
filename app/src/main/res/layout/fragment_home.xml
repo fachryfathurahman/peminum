@@ -31,9 +31,11 @@
 
         <ImageView
             android:id="@+id/minumAir"
+        <Button
+            android:id="@+id/imageView9"
             android:layout_width="230dp"
             android:layout_height="230dp"
-            android:src="@drawable/ic_jadisatu"
+            android:background="@drawable/drink"
             custom:layout_constraintBottom_toBottomOf="@+id/arc_progress"
             custom:layout_constraintEnd_toEndOf="@+id/arc_progress"
             custom:layout_constraintStart_toStartOf="@+id/arc_progress"
@@ -43,14 +45,15 @@
             android:id="@+id/textView21"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:elevation="4dp"
             android:text="1972"
             android:textSize="20sp"
             custom:layout_constraintBottom_toBottomOf="@+id/minumAir"
             custom:layout_constraintEnd_toEndOf="@+id/minumAir"
-            custom:layout_constraintHorizontal_bias="0.195"
+            custom:layout_constraintHorizontal_bias="0.248"
             custom:layout_constraintStart_toStartOf="@+id/minumAir"
             custom:layout_constraintTop_toTopOf="@+id/minumAir"
-            custom:layout_constraintVertical_bias="0.231" />
+            custom:layout_constraintVertical_bias="0.236" />
 
         <TextView
             android:id="@+id/textView22"
@@ -59,6 +62,7 @@
             android:text="/1972 ml"
             android:textColor="@color/themeColor"
             android:textSize="24sp"
+            android:elevation="4dp"
             custom:layout_constraintBaseline_toBaselineOf="@+id/textView21"
             custom:layout_constraintEnd_toEndOf="@+id/minumAir"
             custom:layout_constraintHorizontal_bias="0.0"

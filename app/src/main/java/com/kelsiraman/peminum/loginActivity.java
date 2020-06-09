@@ -12,6 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -39,10 +42,11 @@ public class loginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+
         mAuth = FirebaseAuth.getInstance();
         email = findViewById(R.id.siEmail);
         password = findViewById(R.id.siPassword);
-        TextView moveToSignUp =  findViewById(R.id.moveToSignup);
+        TextView moveToSignUp = findViewById(R.id.moveToSignup);
         Button signIn = findViewById(R.id.signInButton);
         moveToSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +59,7 @@ public class loginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String valueEmail = email.getText().toString();
                 String valuePassword = password.getText().toString();
-                if(valueEmail.isEmpty() || valuePassword.isEmpty()){
+                if (valueEmail.isEmpty() || valuePassword.isEmpty()) {
                     Toast.makeText(loginActivity.this, "Form Tidak Lengkap", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -71,7 +75,7 @@ public class loginActivity extends AppCompatActivity {
         finishAffinity();
     }
 
-    public void loginAccount(String email, String password){
+    public void loginAccount(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -94,7 +98,7 @@ public class loginActivity extends AppCompatActivity {
         database.child("DataUser").child(mAuth.getUid()).child("Profil").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot data : dataSnapshot.getChildren()){
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
                     parcelDU = data.getValue(DataUser.class);
                     parcelUsername = parcelDU.getUsername();
                     parcelGender = parcelDU.getUserGender();
@@ -104,6 +108,7 @@ public class loginActivity extends AppCompatActivity {
                 }
                 moveToMain();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
@@ -118,8 +123,8 @@ public class loginActivity extends AppCompatActivity {
         startActivity(main);
     }
 
-    public void moveToSignUp(){
-        Intent intent  = new Intent(getBaseContext(),SignUp.class);
+    public void moveToSignUp() {
+        Intent intent = new Intent(getBaseContext(), SignUp.class);
         startActivity(intent);
     }
 }

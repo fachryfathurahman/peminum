@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,10 +52,35 @@ public class HomeFragment extends Fragment {
         DataUser parcelDU = getActivity().getIntent().getParcelableExtra(PARCEL);
         format = new SimpleDateFormat("HH:mm");
         hitungWaktuMinum(parcelDU);
-
-        //TODO hapus method ini dan ganti dengan method mengisi data list
-//        SetDataKosong();
         setAdapter(view);
+    }
+
+    private void setAdapter(View view) {
+        RecyclerView rv = view.findViewById(R.id.rvUpcoming);
+        rv.setLayoutManager(new LinearLayoutManager(mContext));
+        adapter = new RecycleViewAdapter();
+        adapter.setUpcomingData(list,mContext);
+        rv.setAdapter(adapter);
+    }
+
+    private double hitungTakaran(DataUser parcelDU) {
+        double takaran = (((parcelDU.getUserBerat() * 2.205) * (2.0 / 3.0)) / 33.814) * 1000.0;
+        takaran = Math.floor(takaran * 100) / 100;
+//        takaran = Double.parseDouble(new DecimalFormat("#.##").format(takaran));
+        return takaran;
+    }
+
+    private int hitungBanyakMenit(DataUser parcelDU) {
+        int banyakMenit = 0;
+        try {
+            Date bangun = format.parse(parcelDU.getUserBangun());
+            Date tidur = format.parse(parcelDU.getUserTidur());
+            long durasi = tidur.getTime() - bangun.getTime();
+            banyakMenit = (int) durasi / (60 * 1000) ;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return banyakMenit;
     }
 
     private void hitungWaktuMinum(DataUser parcelDU) {
@@ -64,7 +88,8 @@ public class HomeFragment extends Fragment {
         double takaran = hitungTakaran(parcelDU);
         double sekaliMinum = takaran / 10.0;
         double jedaMinum = banyakMenit / 10.0;
-        sekaliMinum = Double.parseDouble(new DecimalFormat("#.##").format(sekaliMinum));
+        sekaliMinum = Math.floor(sekaliMinum * 100) / 100;
+//        sekaliMinum = Double.parseDouble(new DecimalFormat("#.##").format(sekaliMinum));
         try {
             awalAlarm = format.parse(parcelDU.getUserBangun());
             akhirAlarm = format.parse(parcelDU.getUserTidur());
@@ -80,46 +105,9 @@ public class HomeFragment extends Fragment {
             alarm[i] = format.format(cal.getTime());
         }
         for (int i = 0; i < 10; i++) {
-            Log.d("MICIN", alarm[i]);
-        }
-        for (int i = 0; i < 10; i++) {
             UpcomingModel model = new UpcomingModel(sekaliMinum + " ml",alarm[i]);
             list.add(model);
         }
-    }
-
-    private void SetDataKosong() {
-        UpcomingModel model = new UpcomingModel("1 gelas 240ml","10.20");
-        for (int i = 0; i < 10; i++) {
-            list.add(model);
-        }
-    }
-
-    private void setAdapter(View view) {
-        RecyclerView rv = view.findViewById(R.id.rvUpcoming);
-        rv.setLayoutManager(new LinearLayoutManager(mContext));
-        adapter = new RecycleViewAdapter();
-        adapter.setUpcomingData(list,mContext);
-        rv.setAdapter(adapter);
-    }
-
-    private double hitungTakaran(DataUser parcelDU) {
-        double takaran = (((parcelDU.getUserBerat() * 2.205) * (2.0 / 3.0)) / 33.814) * 1000.0;
-        takaran = Double.parseDouble(new DecimalFormat("#.##").format(takaran));
-        return takaran;
-    }
-
-    private int hitungBanyakMenit(DataUser parcelDU) {
-        int banyakMenit = 0;
-        try {
-            Date bangun = format.parse(parcelDU.getUserBangun());
-            Date tidur = format.parse(parcelDU.getUserTidur());
-            long durasi = tidur.getTime() - bangun.getTime();
-            banyakMenit = (int) durasi / (60 * 1000) ;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return banyakMenit;
     }
 
     public static HomeFragment newInstance(){

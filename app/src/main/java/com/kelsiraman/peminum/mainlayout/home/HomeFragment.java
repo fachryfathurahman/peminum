@@ -52,6 +52,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private TextView maxTakaran;
     private TextView progressTakaran;
 
+    private int biarInnitSekali = 0;
 
     private int progress;
     private int banyakMenit ;
@@ -89,8 +90,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         hello = view.findViewById(R.id.haiUser);
         btnTambahAir = view.findViewById(R.id.minumAir);
         btnTambahAir.setOnClickListener(this);
-        hitungWaktuMinum(parcelDU);
         setAdapter(view);
+        if (biarInnitSekali < 1) {
+            hitungWaktuMinum(parcelDU);
+            biarInnitSekali++;
+        }
         prepare(parcelDU);
         setAlarm(parcelDU);
 
@@ -121,7 +125,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private double hitungTakaran(DataUser parcelDU) {
         takaran = (((parcelDU.getUserBerat() * 2.205) * (2.0 / 3.0)) / 33.814) * 1000.0;
-        takaran = Math.floor(takaran * 100) / 100;
+        takaran = Math.floor(takaran);
         return takaran;
     }
 
@@ -143,7 +147,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         takaran = hitungTakaran(parcelDU);
         sekaliMinum = takaran / 10.0;
         jedaMinum = banyakMenit / 10.0;
-        sekaliMinum = Math.floor(sekaliMinum * 100) / 100;
+        sekaliMinum = Math.floor(sekaliMinum * 10) / 10;
         try {
             awalAlarm = format.parse(parcelDU.getUserBangun());
             akhirAlarm = format.parse(parcelDU.getUserTidur());
@@ -175,8 +179,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 if (arcProgress.getProgress()<10){
                     arcProgress.setProgress(progress++);
                     akumulasi = akumulasi + sekaliMinum;
-                    String akumulus = String.valueOf(akumulasi);
-                    progressTakaran.setText(akumulus);
+                    akumulasi = Math.floor(akumulasi * 10) / 10;
+                    String stringAkumulasi = String.valueOf(akumulasi);
+                    progressTakaran.setText(stringAkumulasi);
                 }else {
                     Toast.makeText(getContext(),"Jangan banyak banyak, kembung!",Toast.LENGTH_SHORT).show();
 

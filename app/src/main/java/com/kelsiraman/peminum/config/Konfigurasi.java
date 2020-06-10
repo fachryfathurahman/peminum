@@ -13,4 +13,5 @@ public class Konfigurasi{
     public static final String BANGUN ="bangun";
     public static final String TIDUR = "tidur";
     public static final String BERAT = "berat";
+    public static final String UID = "uid";
 }

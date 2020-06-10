@@ -32,7 +32,7 @@ public class loginActivity extends AppCompatActivity {
     private DataUser parcelDU;
     private static final String TAG = "EmailPassword";
     private FirebaseAuth mAuth;
-    private String valuePassword, parcelEmail, parcelUsername, parcelPassword, parcelGender, parcelBangun, parcelTidur;
+    private String UID, valuePassword, parcelEmail, parcelUsername, parcelPassword, parcelGender, parcelBangun, parcelTidur;
     private int parcelBerat;
     private EditText email, password;
     SharedPreferences sp;
@@ -51,18 +51,8 @@ public class loginActivity extends AppCompatActivity {
             parcelBangun = sp.getString(Konfigurasi.BANGUN,"undefined");
             parcelTidur = sp.getString(Konfigurasi.TIDUR,"undefined");
             parcelBerat = sp.getInt(Konfigurasi.BERAT,0);
-            mAuth.signInWithEmailAndPassword(parcelEmail, parcelPassword)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Log.d(TAG, "signInWithEmail:success");
-                                moveToMain();
-                            } else {
-                                Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            }
-                        }
-                    });
+            UID = sp.getString(Konfigurasi.UID,"undefined");
+            moveToMain();
         }else {
             email = findViewById(R.id.siEmail);
             password = findViewById(R.id.siPassword);
@@ -113,7 +103,7 @@ public class loginActivity extends AppCompatActivity {
     private void fetchDataAndToMain() {
         FirebaseUser user = mAuth.getCurrentUser();
         parcelEmail = user.getEmail();
-
+        UID = user.getUid();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         DatabaseReference root = ref.child("DataUser").child(mAuth.getUid()).child("Profil");
 
@@ -147,6 +137,7 @@ public class loginActivity extends AppCompatActivity {
         editor.putString(Konfigurasi.TIDUR,parcelTidur);
         editor.putInt(Konfigurasi.BERAT,parcelBerat);
         editor.putBoolean(Konfigurasi.LOGGED,true);
+        editor.putString(Konfigurasi.UID,UID);
         editor.apply();
     }
 
@@ -154,6 +145,7 @@ public class loginActivity extends AppCompatActivity {
         DataUser du = new DataUser(parcelEmail, parcelUsername, parcelGender, parcelBangun, parcelTidur, parcelBerat);
         Intent main = new Intent(getBaseContext(), MainActivity.class);
         main.putExtra(PARCEL, du);
+        main.putExtra(Konfigurasi.UID,UID);
         startActivity(main);
     }
 

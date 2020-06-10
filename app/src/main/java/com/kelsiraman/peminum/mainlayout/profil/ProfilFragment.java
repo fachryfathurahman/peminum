@@ -55,7 +55,7 @@ public class ProfilFragment extends Fragment implements View.OnClickListener {
         pUsername = view.findViewById(R.id.profilUsername);
         pBerat = view.findViewById(R.id.profilBerat);
         pEmail = view.findViewById(R.id.profilEmail);
-        getUserID = auth.getCurrentUser().getUid();
+        getUserID = getActivity().getIntent().getStringExtra(Konfigurasi.UID);
 
         pUsername.setText(parcelDU.getUsername());
         pBerat.setText(parcelDU.getUserBerat() + "");

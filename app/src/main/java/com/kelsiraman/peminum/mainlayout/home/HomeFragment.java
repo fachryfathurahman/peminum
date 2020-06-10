@@ -94,11 +94,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         prepare(parcelDU);
         setAlarm(parcelDU);
 
-        try {
-            prepare(parcelDU);
-        }catch (Exception E){
-            Toast.makeText(getContext(),"null",Toast.LENGTH_SHORT);
-        }
+        prepare(parcelDU);
 
         //todo ganti dengan progrees
         //warning : value ini akan kembali 0 jika di mulai app lagi

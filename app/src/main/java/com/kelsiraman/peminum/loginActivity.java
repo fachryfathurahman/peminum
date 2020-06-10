@@ -35,14 +35,15 @@ public class loginActivity extends AppCompatActivity {
     private String parcelEmail, parcelUsername, parcelGender, parcelBangun, parcelTidur;
     private int parcelBerat;
     private EditText email, password;
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        SharedPreferences sp =getSharedPreferences(Konfigurasi.LOGINPREF,MODE_PRIVATE);
-        if (sp.getBoolean(Konfigurasi.LOGGED, true)){
+        sp = getSharedPreferences(Konfigurasi.LOGINPREF,MODE_PRIVATE);
+        if (sp.getBoolean(Konfigurasi.LOGGED, false)){
             parcelEmail = sp.getString(Konfigurasi.EMAIL,"undefined");
             parcelUsername = sp.getString(Konfigurasi.USERNAME,"undefined");
             parcelGender = sp.getString(Konfigurasi.GENDER,"undefined");
@@ -103,8 +104,11 @@ public class loginActivity extends AppCompatActivity {
     private void fetchDataAndToMain() {
         FirebaseUser user = mAuth.getCurrentUser();
         parcelEmail = user.getEmail();
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        database.child("DataUser").child(mAuth.getUid()).child("Profil").addListenerForSingleValueEvent(new ValueEventListener() {
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference root = ref.child("DataUser").child(mAuth.getUid()).child("Profil");
+
+        root.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()){
@@ -125,9 +129,8 @@ public class loginActivity extends AppCompatActivity {
     }
 
     private void saveDatePref() {
-        SharedPreferences sp = getSharedPreferences(Konfigurasi.LOGINPREF, MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString(Konfigurasi.USERNAME,parcelEmail);
+        editor.putString(Konfigurasi.USERNAME,parcelUsername);
         editor.putString(Konfigurasi.EMAIL,parcelEmail);
         editor.putString(Konfigurasi.GENDER, parcelGender);
         editor.putString(Konfigurasi.BANGUN,parcelBangun);

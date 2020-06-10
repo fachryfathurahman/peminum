@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,12 @@ import android.widget.EditText;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.kelsiraman.peminum.R;
 import com.kelsiraman.peminum.config.Konfigurasi;
 import com.kelsiraman.peminum.loginActivity;
@@ -27,6 +34,7 @@ import com.kelsiraman.peminum.model.DataUser;
  */
 public class ProfilFragment extends Fragment implements View.OnClickListener {
     private static final String PARCEL = "DATAUSER";
+    private DataUser parcelDU;
     private Button saveBtn, signOut;
     private EditText pUsername, pBerat, pEmail;
     private Context mContext;
@@ -39,7 +47,7 @@ public class ProfilFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mContext = getContext();
-        DataUser parcelDU = getActivity().getIntent().getParcelableExtra(PARCEL);
+        parcelDU = getActivity().getIntent().getParcelableExtra(PARCEL);
         pUsername = view.findViewById(R.id.profilUsername);
         pBerat = view.findViewById(R.id.profilBerat);
         pEmail = view.findViewById(R.id.profilEmail);
@@ -58,11 +66,31 @@ public class ProfilFragment extends Fragment implements View.OnClickListener {
     }
 
     private void sendUpdateProfile() {
-        String username = pUsername.getText().toString();
-        String berat = pBerat.getText().toString();
-        String email = pEmail.getText().toString();
+        final String username = pUsername.getText().toString();
+        final int berat = Integer.parseInt(pBerat.getText().toString());
+        final String email = pEmail.getText().toString();
 
-        //todo update data dan kirim ke firebase
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String getUserID = auth.getCurrentUser().getUid();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference root = ref.child("DataUser").child(getUserID).child("Profil");
+
+        Query query = root.orderByChild("userEmail").equalTo(parcelDU.getUserEmail());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    ds.child("username").getRef().setValue(username);
+                    ds.child("userBerat").getRef().setValue(berat);
+                    ds.child("userEmail").getRef().setValue(email);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("PUSHING", databaseError.getMessage());
+            }
+        });
     }
 
     @Override

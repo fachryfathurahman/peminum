@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 import com.github.lzyzsd.circleprogress.ArcProgress;
 import com.kelsiraman.peminum.R;
@@ -40,6 +39,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private Button btnTambahAir;
     private ArcProgress arcProgress;
     private int progress;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -79,7 +79,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private double hitungTakaran(DataUser parcelDU) {
         double takaran = (((parcelDU.getUserBerat() * 2.205) * (2.0 / 3.0)) / 33.814) * 1000.0;
         takaran = Math.floor(takaran * 100) / 100;
-        return (((parcelDU.getUserBerat() * 2.205) * (2.0 / 3.0)) / 33.814) * 1000.0;
+        return takaran;
     }
 
     private int hitungBanyakMenit(DataUser parcelDU) {
@@ -101,7 +101,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         double sekaliMinum = takaran / 10.0;
         double jedaMinum = banyakMenit / 10.0;
         sekaliMinum = Math.floor(sekaliMinum * 100) / 100;
-//        sekaliMinum = Double.parseDouble(new DecimalFormat("#.##").format(sekaliMinum));
         try {
             awalAlarm = format.parse(parcelDU.getUserBangun());
             akhirAlarm = format.parse(parcelDU.getUserTidur());
@@ -123,7 +122,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public static HomeFragment newInstance(){
-
         return new HomeFragment();
     }
 

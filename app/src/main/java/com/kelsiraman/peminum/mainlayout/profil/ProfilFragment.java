@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,6 +41,7 @@ public class ProfilFragment extends Fragment implements View.OnClickListener {
     private String getUserID, usernameBaru, beratBaru, emailBaru;
     private Button saveBtn, signOut;
     private EditText pUsername, pBerat, pEmail;
+    private TextView greeting;
     private Context mContext;
     FloatingActionButton fab;
     public ProfilFragment() {
@@ -55,11 +57,14 @@ public class ProfilFragment extends Fragment implements View.OnClickListener {
         pUsername = view.findViewById(R.id.profilUsername);
         pBerat = view.findViewById(R.id.profilBerat);
         pEmail = view.findViewById(R.id.profilEmail);
+        greeting = view.findViewById(R.id.profileGreeting);
         getUserID = getActivity().getIntent().getStringExtra(Konfigurasi.UID);
 
         pUsername.setText(parcelDU.getUsername());
         pBerat.setText(parcelDU.getUserBerat() + "");
         pEmail.setText(parcelDU.getUserEmail());
+        String greet = "Hai "+parcelDU.getUsername()+"\nSudahkah anda minum Hari ini?";
+        greeting.setText(greet);
 
         signOut = view.findViewById(R.id.signOut);
         signOut.setOnClickListener(this);

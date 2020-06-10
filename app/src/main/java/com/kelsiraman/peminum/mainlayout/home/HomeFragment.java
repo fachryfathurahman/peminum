@@ -45,6 +45,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private TextView maxTakaran;
     private TextView progressTakaran;
 
+
     private int progress;
     private int banyakMenit ;
     private double takaran ;
@@ -77,6 +78,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         hitungWaktuMinum(parcelDU);
         setAdapter(view);
         prepare(parcelDU);
+
+        try {
+            prepare(parcelDU);
+        }catch (Exception E){
+            Toast.makeText(getContext(),"null",Toast.LENGTH_SHORT);
+        }
 
         //todo ganti dengan progrees
         //warning : value ini akan kembali 0 jika di mulai app lagi

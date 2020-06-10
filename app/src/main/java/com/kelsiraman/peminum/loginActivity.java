@@ -130,7 +130,7 @@ public class loginActivity extends AppCompatActivity {
 
     private void saveDatePref() {
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString(Konfigurasi.USERNAME,parcelEmail);
+        editor.putString(Konfigurasi.USERNAME,parcelUsername);
         editor.putString(Konfigurasi.EMAIL,parcelEmail);
         editor.putString(Konfigurasi.GENDER, parcelGender);
         editor.putString(Konfigurasi.BANGUN,parcelBangun);

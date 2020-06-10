@@ -46,13 +46,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private TextView maxTakaran;
     private TextView progressTakaran;
 
-    private int progress;
-    int banyakMenit ;
-    double takaran ;
-    double sekaliMinum ;
-    double jedaMinum ;
 
-    double akumulasi = 0;
+    private int progress;
+    private int banyakMenit ;
+    private double takaran ;
+    private double sekaliMinum ;
+    private double jedaMinum ;
+
+    private double akumulasi = 0;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -79,7 +80,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         progressTakaran = view.findViewById(R.id.progressTakaran);
         hello = view.findViewById(R.id.haiUser);
 
-        prepare(parcelDU);
+        try {
+            prepare(parcelDU);
+        }catch (Exception E){
+            Toast.makeText(getContext(),"null",Toast.LENGTH_SHORT);
+        }
 
         //todo ganti dengan progrees
         //warning : value ini akan kembali 0 jika di mulai app lagi
@@ -89,7 +94,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private void prepare(DataUser parcelDU) {
         arcProgress.setMax(10);
-        hello.setText("Hai "+parcelDU.getUserEmail()+",\nSudahkah anda minum hari ini?");
+        hello.setText("Hai "+parcelDU.getUsername()+",\nSudahkah anda minum hari ini?");
         maxTakaran.setText("/"+Double.parseDouble(new DecimalFormat("#.##").format(hitungTakaran(parcelDU)))+"ml");
         progressTakaran.setText(akumulasi+"");
 

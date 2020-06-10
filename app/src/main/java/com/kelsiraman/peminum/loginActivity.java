@@ -32,7 +32,7 @@ public class loginActivity extends AppCompatActivity {
     private DataUser parcelDU;
     private static final String TAG = "EmailPassword";
     private FirebaseAuth mAuth;
-    private String parcelEmail, parcelUsername, parcelGender, parcelBangun, parcelTidur;
+    private String valuePassword, parcelEmail, parcelUsername, parcelPassword, parcelGender, parcelBangun, parcelTidur;
     private int parcelBerat;
     private EditText email, password;
     SharedPreferences sp;
@@ -41,18 +41,29 @@ public class loginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-
+        mAuth = FirebaseAuth.getInstance();
         sp = getSharedPreferences(Konfigurasi.LOGINPREF,MODE_PRIVATE);
         if (sp.getBoolean(Konfigurasi.LOGGED, false)){
             parcelEmail = sp.getString(Konfigurasi.EMAIL,"undefined");
             parcelUsername = sp.getString(Konfigurasi.USERNAME,"undefined");
+            parcelPassword = sp.getString(Konfigurasi.PASSWORD, "undefined");
             parcelGender = sp.getString(Konfigurasi.GENDER,"undefined");
             parcelBangun = sp.getString(Konfigurasi.BANGUN,"undefined");
             parcelTidur = sp.getString(Konfigurasi.TIDUR,"undefined");
             parcelBerat = sp.getInt(Konfigurasi.BERAT,0);
-            moveToMain();
+            mAuth.signInWithEmailAndPassword(parcelEmail, parcelPassword)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "signInWithEmail:success");
+                                moveToMain();
+                            } else {
+                                Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            }
+                        }
+                    });
         }else {
-            mAuth = FirebaseAuth.getInstance();
             email = findViewById(R.id.siEmail);
             password = findViewById(R.id.siPassword);
             TextView moveToSignUp =  findViewById(R.id.moveToSignup);
@@ -67,7 +78,7 @@ public class loginActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     String valueEmail = email.getText().toString();
-                    String valuePassword = password.getText().toString();
+                    valuePassword = password.getText().toString();
                     if(valueEmail.isEmpty() || valuePassword.isEmpty()){
                         Toast.makeText(loginActivity.this, "Form Tidak Lengkap", Toast.LENGTH_SHORT).show();
                         return;
@@ -76,7 +87,6 @@ public class loginActivity extends AppCompatActivity {
                 }
             });
         }
-
     }
 
     @Override
@@ -95,7 +105,6 @@ public class loginActivity extends AppCompatActivity {
                             fetchDataAndToMain();
                         } else {
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(loginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -130,8 +139,9 @@ public class loginActivity extends AppCompatActivity {
 
     private void saveDatePref() {
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString(Konfigurasi.USERNAME,parcelEmail);
+        editor.putString(Konfigurasi.USERNAME,parcelUsername);
         editor.putString(Konfigurasi.EMAIL,parcelEmail);
+        editor.putString(Konfigurasi.PASSWORD, valuePassword);
         editor.putString(Konfigurasi.GENDER, parcelGender);
         editor.putString(Konfigurasi.BANGUN,parcelBangun);
         editor.putString(Konfigurasi.TIDUR,parcelTidur);

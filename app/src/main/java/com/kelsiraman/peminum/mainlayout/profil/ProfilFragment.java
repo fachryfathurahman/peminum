@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +36,8 @@ import com.kelsiraman.peminum.model.DataUser;
 public class ProfilFragment extends Fragment implements View.OnClickListener {
     private static final String PARCEL = "DATAUSER";
     private DataUser parcelDU;
+    private FirebaseAuth auth;
+    private String getUserID, usernameBaru, beratBaru, emailBaru;
     private Button saveBtn, signOut;
     private EditText pUsername, pBerat, pEmail;
     private Context mContext;
@@ -46,11 +49,14 @@ public class ProfilFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        auth = FirebaseAuth.getInstance();
         mContext = getContext();
         parcelDU = getActivity().getIntent().getParcelableExtra(PARCEL);
         pUsername = view.findViewById(R.id.profilUsername);
         pBerat = view.findViewById(R.id.profilBerat);
         pEmail = view.findViewById(R.id.profilEmail);
+        getUserID = auth.getCurrentUser().getUid();
+
         pUsername.setText(parcelDU.getUsername());
         pBerat.setText(parcelDU.getUserBerat() + "");
         pEmail.setText(parcelDU.getUserEmail());
@@ -66,12 +72,7 @@ public class ProfilFragment extends Fragment implements View.OnClickListener {
     }
 
     private void sendUpdateProfile() {
-        final String username = pUsername.getText().toString();
-        final int berat = Integer.parseInt(pBerat.getText().toString());
-        final String email = pEmail.getText().toString();
-
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        String getUserID = auth.getCurrentUser().getUid();
+        final int berat = Integer.parseInt(beratBaru);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         DatabaseReference root = ref.child("DataUser").child(getUserID).child("Profil");
@@ -81,9 +82,9 @@ public class ProfilFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    ds.child("username").getRef().setValue(username);
+                    ds.child("username").getRef().setValue(usernameBaru);
                     ds.child("userBerat").getRef().setValue(berat);
-                    ds.child("userEmail").getRef().setValue(email);
+                    ds.child("userEmail").getRef().setValue(emailBaru);
                 }
             }
             @Override
@@ -107,7 +108,6 @@ public class ProfilFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.signOut:
-                FirebaseAuth auth = FirebaseAuth.getInstance();
                 auth.signOut();
                 moveToSignIn();
                 break;
@@ -119,12 +119,19 @@ public class ProfilFragment extends Fragment implements View.OnClickListener {
                 fab.setVisibility(View.INVISIBLE);
                 break;
             case R.id.buttonSave:
-                pUsername.setEnabled(false);
-                pBerat.setEnabled(false);
-                pEmail.setEnabled(false);
-                saveBtn.setVisibility(View.INVISIBLE);
-                fab.setVisibility(View.VISIBLE);
-                sendUpdateProfile();
+                usernameBaru = pUsername.getText().toString();
+                beratBaru = pBerat.getText().toString();
+                emailBaru = pEmail.getText().toString();
+                if (usernameBaru.isEmpty() || beratBaru.isEmpty() || emailBaru.isEmpty()) {
+                    Toast.makeText(getContext(),"Form Kurang Lengkap!",Toast.LENGTH_SHORT).show();
+                } else {
+                    pUsername.setEnabled(false);
+                    pBerat.setEnabled(false);
+                    pEmail.setEnabled(false);
+                    saveBtn.setVisibility(View.INVISIBLE);
+                    fab.setVisibility(View.VISIBLE);
+                    sendUpdateProfile();
+                }
                 break;
         }
     }

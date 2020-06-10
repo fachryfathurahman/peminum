@@ -8,6 +8,7 @@ public class Konfigurasi{
     public static final String LOGGED = "logged";
     public static final String USERNAME = "username";
     public static final String EMAIL ="email";
+    public static final String PASSWORD ="password";
     public static final String GENDER = "gender";
     public static final String BANGUN ="bangun";
     public static final String TIDUR = "tidur";

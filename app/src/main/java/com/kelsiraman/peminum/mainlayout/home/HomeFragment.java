@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,12 +46,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private TextView progressTakaran;
 
     private int progress;
-    int banyakMenit ;
-    double takaran ;
-    double sekaliMinum ;
-    double jedaMinum ;
+    private int banyakMenit ;
+    private double takaran ;
+    private double sekaliMinum ;
+    private double jedaMinum ;
 
-    double akumulasi = 0;
+    private double akumulasi = 0;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -69,16 +68,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mContext = getContext();
         DataUser parcelDU = getActivity().getIntent().getParcelableExtra(PARCEL);
         format = new SimpleDateFormat("HH:mm");
-        hitungWaktuMinum(parcelDU);
-        setAdapter(view);
-
         arcProgress = view.findViewById(R.id.arc_progress);
-        btnTambahAir = view.findViewById(R.id.minumAir);
-        btnTambahAir.setOnClickListener(this);
         maxTakaran = view.findViewById(R.id.takaranMax);
         progressTakaran = view.findViewById(R.id.progressTakaran);
         hello = view.findViewById(R.id.haiUser);
-
+        btnTambahAir = view.findViewById(R.id.minumAir);
+        btnTambahAir.setOnClickListener(this);
+        hitungWaktuMinum(parcelDU);
+        setAdapter(view);
         prepare(parcelDU);
 
         //todo ganti dengan progrees
@@ -89,7 +86,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private void prepare(DataUser parcelDU) {
         arcProgress.setMax(10);
-        hello.setText("Hai "+parcelDU.getUserEmail()+",\nSudahkah anda minum hari ini?");
+        hello.setText("Hai "+parcelDU.getUsername()+",\nSudahkah anda minum hari ini?");
         maxTakaran.setText("/"+Double.parseDouble(new DecimalFormat("#.##").format(hitungTakaran(parcelDU)))+"ml");
         progressTakaran.setText(akumulasi+"");
 
@@ -104,7 +101,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private double hitungTakaran(DataUser parcelDU) {
-        double takaran = (((parcelDU.getUserBerat() * 2.205) * (2.0 / 3.0)) / 33.814) * 1000.0;
+        takaran = (((parcelDU.getUserBerat() * 2.205) * (2.0 / 3.0)) / 33.814) * 1000.0;
         takaran = Math.floor(takaran * 100) / 100;
         return takaran;
     }

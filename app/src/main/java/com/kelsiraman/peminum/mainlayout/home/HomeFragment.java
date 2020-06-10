@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.lzyzsd.circleprogress.ArcProgress;
 import com.kelsiraman.peminum.R;
@@ -91,6 +92,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         hello.setText("Hai "+parcelDU.getUserEmail()+",\nSudahkah anda minum hari ini?");
         maxTakaran.setText("/"+Double.parseDouble(new DecimalFormat("#.##").format(hitungTakaran(parcelDU)))+"ml");
         progressTakaran.setText(akumulasi+"");
+
     }
 
     private void setAdapter(View view) {
@@ -155,11 +157,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.minumAir:
-                //todo tambahkan exception waktu supaya progress tida di tekan sembarangan
+                //todo tambahkan exception waktu supaya progress tida di tekan sembarangan, data minum belum masuk ke firebase
                 if (arcProgress.getProgress()<10){
                     arcProgress.setProgress(progress++);
                     akumulasi = akumulasi + sekaliMinum;
                     progressTakaran.setText(Double.parseDouble(new DecimalFormat("#.##").format(akumulasi))+"");
+                }else {
+                    Toast.makeText(getContext(),"Jangan banyak banyak, kembung!",Toast.LENGTH_SHORT).show();
+
                 }
                 break;
         }

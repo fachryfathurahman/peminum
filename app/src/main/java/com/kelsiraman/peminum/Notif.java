@@ -10,6 +10,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.kelsiraman.peminum.mainlayout.MainActivity;
+import com.kelsiraman.peminum.mainlayout.home.HomeFragment;
 import com.kelsiraman.peminum.pendaftaran.*;
 
 import static android.content.ContentValues.TAG;
@@ -21,7 +22,7 @@ public class Notif extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.d(TAG, "onReceive: disini peminum");
 
-        Intent intent2 = new Intent(context, MainActivity.class);
+        Intent intent2 = new Intent(context, HomeFragment.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent addPendingIntent = PendingIntent.getActivity(context,
                 0, intent2, PendingIntent.FLAG_ONE_SHOT);

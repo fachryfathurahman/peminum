@@ -94,8 +94,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         prepare(parcelDU);
         setAlarm(parcelDU);
 
-        prepare(parcelDU);
-
         //todo ganti dengan progrees
         //warning : value ini akan kembali 0 jika di mulai app lagi
         progress = 1;
@@ -104,9 +102,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private void prepare(DataUser parcelDU) {
         arcProgress.setMax(10);
-        hello.setText("Hai "+parcelDU.getUsername()+",\nSudahkah anda minum hari ini?");
-        maxTakaran.setText("/"+Double.parseDouble(new DecimalFormat("#.##").format(hitungTakaran(parcelDU)))+"ml");
-        progressTakaran.setText(akumulasi+"");
+        String greeting = "Hai "+parcelDU.getUsername()+",\nSudahkah anda minum hari ini?";
+        String max = "/"+hitungTakaran(parcelDU)+"ml";
+        hello.setText(greeting);
+        maxTakaran.setText(max);
+        String akumulus = String.valueOf(akumulasi);
+        progressTakaran.setText(akumulus);
 
     }
 
@@ -143,7 +144,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         sekaliMinum = takaran / 10.0;
         jedaMinum = banyakMenit / 10.0;
         sekaliMinum = Math.floor(sekaliMinum * 100) / 100;
-//        sekaliMinum = Double.parseDouble(new DecimalFormat("#.##").format(sekaliMinum));
         try {
             awalAlarm = format.parse(parcelDU.getUserBangun());
             akhirAlarm = format.parse(parcelDU.getUserTidur());
@@ -172,11 +172,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.minumAir:
-                //todo tambahkan exception waktu supaya progress tida di tekan sembarangan, data minum belum masuk ke firebase
                 if (arcProgress.getProgress()<10){
                     arcProgress.setProgress(progress++);
                     akumulasi = akumulasi + sekaliMinum;
-                    progressTakaran.setText(Double.parseDouble(new DecimalFormat("#.##").format(akumulasi))+"");
+                    String akumulus = String.valueOf(akumulasi);
+                    progressTakaran.setText(akumulus);
                 }else {
                     Toast.makeText(getContext(),"Jangan banyak banyak, kembung!",Toast.LENGTH_SHORT).show();
 

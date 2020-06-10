@@ -75,8 +75,11 @@ public class SleepTimeActivity extends AppCompatActivity {
     private void pushToDatabase() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String getUserID = auth.getCurrentUser().getUid();
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        database.child("DataUser").child(getUserID).child("Profil").push()
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference root = ref.child("DataUser").child(getUserID).child("Profil");
+
+        root.push()
                 .setValue(new DataUser(parcelDU.getUserEmail(), parcelDU.getUsername(), parcelDU.getUserGender(), parcelDU.getUserBangun(), getWaktuTidur(), parcelDU.getUserBerat()))
                 .addOnSuccessListener(this, new OnSuccessListener() {
                     @Override

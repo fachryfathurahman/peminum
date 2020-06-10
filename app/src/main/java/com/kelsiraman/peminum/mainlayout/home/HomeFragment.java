@@ -52,6 +52,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     double jedaMinum ;
 
     double akumulasi = 0;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -103,7 +104,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private double hitungTakaran(DataUser parcelDU) {
         double takaran = (((parcelDU.getUserBerat() * 2.205) * (2.0 / 3.0)) / 33.814) * 1000.0;
         takaran = Math.floor(takaran * 100) / 100;
-        return (((parcelDU.getUserBerat() * 2.205) * (2.0 / 3.0)) / 33.814) * 1000.0;
+        return takaran;
     }
 
     private int hitungBanyakMenit(DataUser parcelDU) {
@@ -147,7 +148,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public static HomeFragment newInstance(){
-
         return new HomeFragment();
     }
 

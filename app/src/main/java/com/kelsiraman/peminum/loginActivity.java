@@ -104,8 +104,11 @@ public class loginActivity extends AppCompatActivity {
     private void fetchDataAndToMain() {
         FirebaseUser user = mAuth.getCurrentUser();
         parcelEmail = user.getEmail();
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        database.child("DataUser").child(mAuth.getUid()).child("Profil").addListenerForSingleValueEvent(new ValueEventListener() {
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference root = ref.child("DataUser").child(mAuth.getUid()).child("Profil");
+
+        root.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()){

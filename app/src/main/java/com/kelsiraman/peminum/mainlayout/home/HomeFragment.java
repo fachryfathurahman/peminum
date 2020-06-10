@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.github.lzyzsd.circleprogress.ArcProgress;
@@ -36,7 +37,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private RecycleViewAdapter adapter;
     private ArrayList<UpcomingModel> list = new ArrayList<>();
     private Context mContext;
-    private ImageButton btnTambahAir;
+    private Button btnTambahAir;
     private ArcProgress arcProgress;
     private int progress;
     public HomeFragment() {

@@ -92,6 +92,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         hitungWaktuMinum(parcelDU);
         setAdapter(view);
         prepare(parcelDU);
+        setAlarm(parcelDU);
 
         try {
             prepare(parcelDU);

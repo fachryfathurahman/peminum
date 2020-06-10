@@ -36,8 +36,6 @@ public class Notif extends BroadcastReceiver {
                 .setContentIntent(addPendingIntent)
                 .addAction(0, "Buka", addPendingIntent);
 
-
-
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
         notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
     }

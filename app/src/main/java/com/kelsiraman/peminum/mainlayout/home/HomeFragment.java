@@ -1,6 +1,9 @@
 package com.kelsiraman.peminum.mainlayout.home;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.lzyzsd.circleprogress.ArcProgress;
+import com.kelsiraman.peminum.Notif;
 import com.kelsiraman.peminum.R;
 import com.kelsiraman.peminum.mainlayout.home.recycleview.RecycleViewAdapter;
 import com.kelsiraman.peminum.model.DataUser;
@@ -28,6 +33,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
+import static android.content.Context.ALARM_SERVICE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,6 +60,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private double jedaMinum ;
 
     private double akumulasi = 0;
+
+    private final int ID_REPEATING=101;
+    private Intent intent1;
+    private PendingIntent pendingIntent;
+    private AlarmManager am;
+    // j = jam, m = menit, t = tidur, b = bangun
+    private int jt,mt,jb,mb;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -171,6 +185,102 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                 }
                 break;
+        }
+    }
+
+    private void setAlarm(DataUser parcelDU) {
+        String wt = parcelDU.getUserTidur();
+        String wb = parcelDU.getUserBangun();
+        String[] jmt = wt.split(":");
+        String[] jmb = wb.split(":");
+        jt = Integer.parseInt(jmt[0]);
+        mt = Integer.parseInt(jmt[1]);
+        jb = Integer.parseInt(jmb[0]);
+        mb = Integer.parseInt(jmb[1]);
+
+        intent1 = new Intent(getActivity(), Notif.class);
+        pendingIntent = PendingIntent.getBroadcast(getActivity(), ID_REPEATING,intent1, 0);
+        am = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
+        alarmBangun(jb,mb);
+        alarmKedua(jb,mb);
+        alarmKetiga(jb,mb);
+        alarmKeempat(jb,mb);
+        alarmKelima(jb,mb);
+        alarmKeenam(jb,mb);
+        alarmKetujuh(jb,mb);
+        alarmTidur(jt,mt);
+    }
+    private void alarmBangun(int jb, int mb){
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, jb);
+        cal.set(Calendar.MINUTE, mb);
+        if (am != null) {
+            //am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 150, pendingIntent);
+            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+            Log.d("this", "onReceive: notif 1");
+        }
+    }
+    private void alarmKedua(int jb, int mb){
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, jb);
+        cal.set(Calendar.MINUTE, mb);
+        if (am != null) {
+            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, (cal.getTimeInMillis()+150*1000), AlarmManager.INTERVAL_DAY, pendingIntent);
+            Log.d("this", "onReceive: notif 2");
+        }
+    }
+    private void alarmKetiga(int jb, int mb){
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, jb);
+        cal.set(Calendar.MINUTE, mb);
+        if (am != null) {
+            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, (cal.getTimeInMillis()+300*1000), AlarmManager.INTERVAL_DAY, pendingIntent);
+            Log.d("this", "onReceive: notif 3");
+        }
+    }
+    private void alarmKeempat(int jb, int mb){
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, jb);
+        cal.set(Calendar.MINUTE, mb);
+        if (am != null) {
+            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, (cal.getTimeInMillis()+450*1000), AlarmManager.INTERVAL_DAY, pendingIntent);
+            Log.d("this", "onReceive: notif 4");
+        }
+    }
+    private void alarmKelima(int jb, int mb){
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, jb);
+        cal.set(Calendar.MINUTE, mb);
+        if (am != null) {
+            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, (cal.getTimeInMillis()+600*1000), AlarmManager.INTERVAL_DAY, pendingIntent);
+            Log.d("this", "onReceive: notif 5");
+        }
+    }
+    private void alarmKeenam(int jb, int mb){
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, jb);
+        cal.set(Calendar.MINUTE, mb);
+        if (am != null) {
+            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, (cal.getTimeInMillis()+750*1000), AlarmManager.INTERVAL_DAY, pendingIntent);
+            Log.d("this", "onReceive: notif 6");
+        }
+    }
+    private void alarmKetujuh(int jb, int mb){
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, jb);
+        cal.set(Calendar.MINUTE, mb);
+        if (am != null) {
+            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, (cal.getTimeInMillis()+900*1000), AlarmManager.INTERVAL_DAY, pendingIntent);
+            Log.d("this", "onReceive: notif 7");
+        }
+    }
+    private void alarmTidur(int jt, int mt){
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, jt);
+        cal.set(Calendar.MINUTE, mt);
+        if (am != null) {
+            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+            Log.d("this", "onReceive: notif 8");
         }
     }
 }

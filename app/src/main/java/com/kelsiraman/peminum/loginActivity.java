@@ -35,13 +35,14 @@ public class loginActivity extends AppCompatActivity {
     private String parcelEmail, parcelUsername, parcelGender, parcelBangun, parcelTidur;
     private int parcelBerat;
     private EditText email, password;
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        SharedPreferences sp =getSharedPreferences(Konfigurasi.LOGINPREF,MODE_PRIVATE);
+        sp = getSharedPreferences(Konfigurasi.LOGINPREF,MODE_PRIVATE);
         if (sp.getBoolean(Konfigurasi.LOGGED, true)){
             parcelEmail = sp.getString(Konfigurasi.EMAIL,"undefined");
             parcelUsername = sp.getString(Konfigurasi.USERNAME,"undefined");
@@ -125,7 +126,6 @@ public class loginActivity extends AppCompatActivity {
     }
 
     private void saveDatePref() {
-        SharedPreferences sp = getSharedPreferences(Konfigurasi.LOGINPREF, MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(Konfigurasi.USERNAME,parcelEmail);
         editor.putString(Konfigurasi.EMAIL,parcelEmail);

@@ -122,9 +122,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public static HomeFragment newInstance(){
-        HomeFragment fragment = new HomeFragment();
 
-        return fragment;
+        return new HomeFragment();
     }
 
     @Override

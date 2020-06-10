@@ -24,11 +24,10 @@
             custom:layout_constraintEnd_toEndOf="parent"
             custom:layout_constraintHorizontal_bias="0.497"
             custom:layout_constraintStart_toStartOf="parent"
-            custom:layout_constraintTop_toBottomOf="@+id/textView23"
+            custom:layout_constraintTop_toBottomOf="@+id/haiUser"
             custom:layout_constraintVertical_bias="0.134">
 
         </com.github.lzyzsd.circleprogress.ArcProgress>
-
 
 
         <Button
@@ -42,33 +41,34 @@
             custom:layout_constraintTop_toTopOf="@+id/arc_progress" />
 
         <TextView
-            android:id="@+id/textView21"
+            android:id="@+id/progressTakaran"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:elevation="4dp"
             android:text="1972"
             android:textSize="20sp"
             custom:layout_constraintBottom_toBottomOf="@+id/minumAir"
             custom:layout_constraintEnd_toEndOf="@+id/minumAir"
-            custom:layout_constraintHorizontal_bias="0.248"
+            custom:layout_constraintHorizontal_bias="0.502"
             custom:layout_constraintStart_toStartOf="@+id/minumAir"
             custom:layout_constraintTop_toTopOf="@+id/minumAir"
-            custom:layout_constraintVertical_bias="0.236" />
+            custom:layout_constraintVertical_bias="0.28" />
 
         <TextView
-            android:id="@+id/textView22"
+            android:id="@+id/takaranMax"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:elevation="4dp"
             android:text="/1972 ml"
             android:textColor="@color/themeColor"
             android:textSize="24sp"
-            android:elevation="4dp"
-            custom:layout_constraintBaseline_toBaselineOf="@+id/textView21"
-            custom:layout_constraintEnd_toEndOf="@+id/minumAir"
-            custom:layout_constraintHorizontal_bias="0.0"
-            custom:layout_constraintStart_toEndOf="@+id/textView21" />
+            custom:layout_constraintEnd_toEndOf="@+id/progressTakaran"
+            custom:layout_constraintStart_toStartOf="@+id/progressTakaran"
+            custom:layout_constraintTop_toBottomOf="@+id/progressTakaran" />
 
         <TextView
-            android:id="@+id/textView23"
+            android:id="@+id/haiUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/micross"
@@ -83,12 +83,12 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvUpcoming"
-            android:layout_width="match_parent"
-            android:layout_marginTop="8dp"
-            android:layout_height="250dp"
+            android:layout_width="401dp"
+            android:layout_height="282dp"
             custom:layout_constraintBottom_toBottomOf="parent"
-            custom:layout_constraintEnd_toEndOf="parent"
-            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintEnd_toEndOf="@+id/textView14"
+            custom:layout_constraintHorizontal_bias="0.07"
+            custom:layout_constraintStart_toStartOf="@+id/textView14"
             custom:layout_constraintTop_toBottomOf="@+id/textView14"
             tools:listitem="@layout/item_upcoming" />
 
@@ -96,12 +96,12 @@
             android:id="@+id/textView14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/micross"
             android:text="Upcoming"
             android:textSize="22sp"
-            custom:layout_constraintEnd_toEndOf="parent"
-            custom:layout_constraintHorizontal_bias="0.086"
+            custom:layout_constraintEnd_toEndOf="@+id/arc_progress"
+            custom:layout_constraintHorizontal_bias="0.119"
             custom:layout_constraintStart_toStartOf="parent"
             custom:layout_constraintTop_toBottomOf="@+id/arc_progress" />
     </androidx.constraintlayout.widget.ConstraintLayout>

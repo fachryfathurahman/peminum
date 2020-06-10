@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.github.lzyzsd.circleprogress.ArcProgress;
 import com.kelsiraman.peminum.R;
@@ -21,6 +22,7 @@ import com.kelsiraman.peminum.mainlayout.home.recycleview.RecycleViewAdapter;
 import com.kelsiraman.peminum.model.DataUser;
 import com.kelsiraman.peminum.model.UpcomingModel;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,8 +40,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private ArrayList<UpcomingModel> list = new ArrayList<>();
     private Context mContext;
     private Button btnTambahAir;
+    private TextView hello;
     private ArcProgress arcProgress;
+    private TextView maxTakaran;
+    private TextView progressTakaran;
+
     private int progress;
+    int banyakMenit ;
+    double takaran ;
+    double sekaliMinum ;
+    double jedaMinum ;
+
+    double akumulasi = 0;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -61,11 +73,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         arcProgress = view.findViewById(R.id.arc_progress);
         btnTambahAir = view.findViewById(R.id.minumAir);
         btnTambahAir.setOnClickListener(this);
+        maxTakaran = view.findViewById(R.id.takaranMax);
+        progressTakaran = view.findViewById(R.id.progressTakaran);
+        hello = view.findViewById(R.id.haiUser);
+
+        prepare(parcelDU);
 
         //todo ganti dengan progrees
         //warning : value ini akan kembali 0 jika di mulai app lagi
-        progress = 0;
+        progress = 1;
 
+    }
+
+    private void prepare(DataUser parcelDU) {
+        arcProgress.setMax(10);
+        hello.setText("Hai "+parcelDU.getUserEmail()+",\nSudahkah anda minum hari ini?");
+        maxTakaran.setText("/"+Double.parseDouble(new DecimalFormat("#.##").format(hitungTakaran(parcelDU)))+"ml");
+        progressTakaran.setText(akumulasi+"");
     }
 
     private void setAdapter(View view) {
@@ -96,10 +120,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void hitungWaktuMinum(DataUser parcelDU) {
-        int banyakMenit = hitungBanyakMenit(parcelDU);
-        double takaran = hitungTakaran(parcelDU);
-        double sekaliMinum = takaran / 10.0;
-        double jedaMinum = banyakMenit / 10.0;
+        banyakMenit = hitungBanyakMenit(parcelDU);
+        takaran = hitungTakaran(parcelDU);
+        sekaliMinum = takaran / 10.0;
+        jedaMinum = banyakMenit / 10.0;
         sekaliMinum = Math.floor(sekaliMinum * 100) / 100;
 //        sekaliMinum = Double.parseDouble(new DecimalFormat("#.##").format(sekaliMinum));
         try {
@@ -132,8 +156,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()){
             case R.id.minumAir:
                 //todo tambahkan exception waktu supaya progress tida di tekan sembarangan
-                if (arcProgress.getProgress()<100){
+                if (arcProgress.getProgress()<10){
                     arcProgress.setProgress(progress++);
+                    akumulasi = akumulasi + sekaliMinum;
+                    progressTakaran.setText(Double.parseDouble(new DecimalFormat("#.##").format(akumulasi))+"");
                 }
                 break;
         }

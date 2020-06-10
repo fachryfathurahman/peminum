@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.lzyzsd.circleprogress.ArcProgress;
 import com.kelsiraman.peminum.R;
@@ -37,9 +39,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private RecycleViewAdapter adapter;
     private ArrayList<UpcomingModel> list = new ArrayList<>();
     private Context mContext;
-    private ImageButton btnTambahAir;
+    private Button btnTambahAir;
+    private TextView hello;
     private ArcProgress arcProgress;
+    private TextView maxTakaran;
+    private TextView progressTakaran;
+
+
     private int progress;
+    private int banyakMenit ;
+    private double takaran ;
+    private double sekaliMinum ;
+    private double jedaMinum ;
+
+    private double akumulasi = 0;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -55,16 +69,33 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mContext = getContext();
         DataUser parcelDU = getActivity().getIntent().getParcelableExtra(PARCEL);
         format = new SimpleDateFormat("HH:mm");
-        hitungWaktuMinum(parcelDU);
-        setAdapter(view);
-
         arcProgress = view.findViewById(R.id.arc_progress);
+        maxTakaran = view.findViewById(R.id.takaranMax);
+        progressTakaran = view.findViewById(R.id.progressTakaran);
+        hello = view.findViewById(R.id.haiUser);
         btnTambahAir = view.findViewById(R.id.minumAir);
         btnTambahAir.setOnClickListener(this);
+        hitungWaktuMinum(parcelDU);
+        setAdapter(view);
+        prepare(parcelDU);
+
+        try {
+            prepare(parcelDU);
+        }catch (Exception E){
+            Toast.makeText(getContext(),"null",Toast.LENGTH_SHORT);
+        }
 
         //todo ganti dengan progrees
         //warning : value ini akan kembali 0 jika di mulai app lagi
-        progress = 0;
+        progress = 1;
+
+    }
+
+    private void prepare(DataUser parcelDU) {
+        arcProgress.setMax(10);
+        hello.setText("Hai "+parcelDU.getUsername()+",\nSudahkah anda minum hari ini?");
+        maxTakaran.setText("/"+Double.parseDouble(new DecimalFormat("#.##").format(hitungTakaran(parcelDU)))+"ml");
+        progressTakaran.setText(akumulasi+"");
 
     }
 
@@ -77,7 +108,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private double hitungTakaran(DataUser parcelDU) {
-        return (((parcelDU.getUserBerat() * 2.205) * (2.0 / 3.0)) / 33.814) * 1000.0;
+        takaran = (((parcelDU.getUserBerat() * 2.205) * (2.0 / 3.0)) / 33.814) * 1000.0;
+        takaran = Math.floor(takaran * 100) / 100;
+        return takaran;
     }
 
     private int hitungBanyakMenit(DataUser parcelDU) {
@@ -94,10 +127,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void hitungWaktuMinum(DataUser parcelDU) {
-        int banyakMenit = hitungBanyakMenit(parcelDU);
-        double takaran = hitungTakaran(parcelDU);
-        double sekaliMinum = takaran / 10.0;
-        double jedaMinum = banyakMenit / 10.0;
+        banyakMenit = hitungBanyakMenit(parcelDU);
+        takaran = hitungTakaran(parcelDU);
+        sekaliMinum = takaran / 10.0;
+        jedaMinum = banyakMenit / 10.0;
         sekaliMinum = Math.floor(sekaliMinum * 100) / 100;
 //        sekaliMinum = Double.parseDouble(new DecimalFormat("#.##").format(sekaliMinum));
         try {
@@ -121,18 +154,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public static HomeFragment newInstance(){
-        HomeFragment fragment = new HomeFragment();
-
-        return fragment;
+        return new HomeFragment();
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.minumAir:
-                //todo tambahkan exception waktu supaya progress tida di tekan sembarangan
-                if (arcProgress.getProgress()<100){
+                //todo tambahkan exception waktu supaya progress tida di tekan sembarangan, data minum belum masuk ke firebase
+                if (arcProgress.getProgress()<10){
                     arcProgress.setProgress(progress++);
+                    akumulasi = akumulasi + sekaliMinum;
+                    progressTakaran.setText(Double.parseDouble(new DecimalFormat("#.##").format(akumulasi))+"");
+                }else {
+                    Toast.makeText(getContext(),"Jangan banyak banyak, kembung!",Toast.LENGTH_SHORT).show();
+
                 }
                 break;
         }

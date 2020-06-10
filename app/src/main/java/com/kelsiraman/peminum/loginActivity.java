@@ -43,7 +43,7 @@ public class loginActivity extends AppCompatActivity {
         setContentView(R.layout.login);
 
         sp = getSharedPreferences(Konfigurasi.LOGINPREF,MODE_PRIVATE);
-        if (sp.getBoolean(Konfigurasi.LOGGED, true)){
+        if (sp.getBoolean(Konfigurasi.LOGGED, false)){
             parcelEmail = sp.getString(Konfigurasi.EMAIL,"undefined");
             parcelUsername = sp.getString(Konfigurasi.USERNAME,"undefined");
             parcelGender = sp.getString(Konfigurasi.GENDER,"undefined");

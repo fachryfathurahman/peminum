@@ -14,7 +14,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="31dp"
         android:orientation="horizontal"
-        android:padding="20dp"></LinearLayout>
+        android:padding="20dp"/>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/slideViewPager"

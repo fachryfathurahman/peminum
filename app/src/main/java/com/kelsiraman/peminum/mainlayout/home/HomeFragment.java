@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.github.lzyzsd.circleprogress.ArcProgress;
 import com.kelsiraman.peminum.Notif;
 import com.kelsiraman.peminum.R;
+import com.kelsiraman.peminum.config.Konfigurasi;
 import com.kelsiraman.peminum.mainlayout.home.recycleview.RecycleViewAdapter;
 import com.kelsiraman.peminum.model.DataUser;
 import com.kelsiraman.peminum.model.UpcomingModel;
@@ -49,12 +51,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private Button btnTambahAir;
     private TextView hello;
     private ArcProgress arcProgress;
+    private SharedPreferences sp;
     private TextView maxTakaran;
     private TextView progressTakaran;
 
     private int biarInnitSekali = 0;
 
-    private int progress;
+    private int progress = 0;;
     private int banyakMenit ;
     private double takaran ;
     private double sekaliMinum ;
@@ -90,17 +93,27 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         hello = view.findViewById(R.id.haiUser);
         btnTambahAir = view.findViewById(R.id.minumAir);
         btnTambahAir.setOnClickListener(this);
+
+        prepare(parcelDU);
+        setAlarm(parcelDU);
         setAdapter(view);
+
+
+        sp = mContext.getSharedPreferences(Konfigurasi.PROGRESS, Context.MODE_PRIVATE);
+        int amount= sp.getInt(Konfigurasi.AMOUNTPROGRESS,0);
+
+        if (amount>0){
+            akumulasi = Double.longBitsToDouble(sp.getLong(Konfigurasi.AKUMULASI, Double.doubleToLongBits(0.0)));
+            String stringAkumulasi = String.valueOf(akumulasi);
+            progressTakaran.setText(stringAkumulasi);
+            progress = amount;
+            arcProgress.setProgress(amount);
+        }
+
         if (biarInnitSekali < 1) {
             hitungWaktuMinum(parcelDU);
             biarInnitSekali++;
         }
-        prepare(parcelDU);
-        setAlarm(parcelDU);
-
-        //todo ganti dengan progrees
-        //warning : value ini akan kembali 0 jika di mulai app lagi
-        progress = 1;
 
     }
 
@@ -162,7 +175,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             cal.add(Calendar.MINUTE, (int) jedaMinum);
             alarm[i] = format.format(cal.getTime());
         }
-        for (int i = 0; i < 10; i++) {
+        for (int i = progress; i < 10; i++) {
             UpcomingModel model = new UpcomingModel(sekaliMinum + " ml",alarm[i]);
             list.add(model);
         }
@@ -181,11 +194,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     list.remove(0);
                     adapter.setUpcomingData(list,mContext);
-                    arcProgress.setProgress(progress++);
+                    arcProgress.setProgress(++progress);
                     akumulasi = akumulasi + sekaliMinum;
                     akumulasi = Math.floor(akumulasi * 10) / 10;
                     String stringAkumulasi = String.valueOf(akumulasi);
                     progressTakaran.setText(stringAkumulasi);
+
+                    SharedPreferences.Editor editor= sp.edit();
+                    editor.putInt(Konfigurasi.AMOUNTPROGRESS, progress);
+                    editor.putLong(Konfigurasi.AKUMULASI,Double.doubleToRawLongBits(akumulasi));
+                    editor.apply();
                 }else {
                     Toast.makeText(getContext(),"Jangan banyak banyak, kembung!",Toast.LENGTH_SHORT).show();
 

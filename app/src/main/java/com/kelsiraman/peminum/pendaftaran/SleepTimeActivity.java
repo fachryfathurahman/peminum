@@ -81,7 +81,7 @@ public class SleepTimeActivity extends AppCompatActivity {
 
         root.push()
                 .setValue(new DataUser(parcelDU.getUserEmail(), parcelDU.getUsername(), parcelDU.getUserGender(), parcelDU.getUserBangun(), getWaktuTidur(), parcelDU.getUserBerat()))
-                .addOnSuccessListener(this, new OnSuccessListener() {
+                .addOnSuccessListener(  this, new OnSuccessListener() {
                     @Override
                     public void onSuccess(Object o) {
                         Toast.makeText(SleepTimeActivity.this, "Data Tersimpan", Toast.LENGTH_SHORT).show();

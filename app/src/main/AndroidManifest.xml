@@ -10,16 +10,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".mainlayout.history.expandHistory"></activity>
         <activity
             android:name=".mainlayout.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-        <activity
-            android:name=".SplashScreen">
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -29,10 +28,10 @@
         <activity android:name=".pendaftaran.WeightActivity" />
         <activity android:name=".pendaftaran.GenderActivity" />
         <activity android:name=".loginActivity" />
-        <activity
-            android:name=".SignUp" >
-        </activity>
-        <receiver android:name=".Notif"
+        <activity android:name=".SignUp"></activity>
+
+        <receiver
+            android:name=".Notif"
             android:enabled="true"
             android:exported="true"
             android:permission="TODO"

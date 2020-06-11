@@ -28,9 +28,6 @@
         app:layout_constraintTop_toBottomOf="@+id/view2"
         app:layout_constraintVertical_bias="0.166"
         app:srcCompat="@drawable/ic_glass_of_water" />
-
-
-
     <TextView
         android:id="@+id/upcomingAmount"
         android:layout_width="wrap_content"

@@ -179,7 +179,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         DatabaseReference root = ref.child("DataUser").child(getUID).child("History");
         String pushMinum = sekaliMinum + " ml";
-        root.push().setValue(new HistoryModel(historyTanggal, pushMinum, "10:20"));
+        root.push().setValue(new HistoryModel("jumat", pushMinum, "10:20"));
     }
 
     private void ambilHariTanggal() {

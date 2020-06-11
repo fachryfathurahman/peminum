@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,13 +22,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.lzyzsd.circleprogress.ArcProgress;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.kelsiraman.peminum.Notif;
 import com.kelsiraman.peminum.R;
+import com.kelsiraman.peminum.config.Konfigurasi;
+import com.kelsiraman.peminum.mainlayout.MainActivity;
 import com.kelsiraman.peminum.mainlayout.home.recycleview.RecycleViewAdapter;
 import com.kelsiraman.peminum.model.DataUser;
+import com.kelsiraman.peminum.model.HistoryModel;
 import com.kelsiraman.peminum.model.UpcomingModel;
+import com.kelsiraman.peminum.pendaftaran.SleepTimeActivity;
 
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,8 +59,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private ArcProgress arcProgress;
     private TextView maxTakaran;
     private TextView progressTakaran;
+    public SharedPreferences sp;
 
+    private ArrayList<String> alarm = new ArrayList<>();
+    private ArrayList<String> historyTakaran = new ArrayList<>();
     private int biarInnitSekali = 0;
+
+    private String historyTanggal;
 
     private int progress;
     private int banyakMenit ;
@@ -60,7 +73,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private double sekaliMinum ;
     private double jedaMinum ;
 
-    private double akumulasi = 0;
+    private double sudahDiMinum = 0;
 
     private final int ID_REPEATING=101;
     private Intent intent1;
@@ -90,11 +103,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         hello = view.findViewById(R.id.haiUser);
         btnTambahAir = view.findViewById(R.id.minumAir);
         btnTambahAir.setOnClickListener(this);
+        sp = this.getActivity().getSharedPreferences(Konfigurasi.LOGINPREF,Context.MODE_PRIVATE);
         setAdapter(view);
-        if (biarInnitSekali < 1) {
-            hitungWaktuMinum(parcelDU);
-            biarInnitSekali++;
-        }
+        if (biarInnitSekali++ < 1) hitungWaktuMinum(parcelDU);
+
         prepare(parcelDU);
         setAlarm(parcelDU);
 
@@ -110,9 +122,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         String max = "/"+hitungTakaran(parcelDU)+"ml";
         hello.setText(greeting);
         maxTakaran.setText(max);
-        String akumulus = String.valueOf(akumulasi);
-        progressTakaran.setText(akumulus);
-
+        String stringSudahDiMinum = String.valueOf(sudahDiMinum);
+        progressTakaran.setText(stringSudahDiMinum);
     }
 
     private void setAdapter(View view) {
@@ -156,16 +167,40 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         Calendar cal = Calendar.getInstance();
         cal.setTime(awalAlarm);
-        String[] alarm = new String[10];
-        alarm[0] = format.format(awalAlarm);
+        alarm.add(format.format(awalAlarm));
         for (int i = 1; i < 10; i++){
             cal.add(Calendar.MINUTE, (int) jedaMinum);
-            alarm[i] = format.format(cal.getTime());
+            alarm.add(format.format(cal.getTime()));
         }
         for (int i = 0; i < 10; i++) {
-            UpcomingModel model = new UpcomingModel(sekaliMinum + " ml",alarm[i]);
+            UpcomingModel model = new UpcomingModel(sekaliMinum + " ml",alarm.get(i));
+            historyTakaran.add(String.valueOf(sekaliMinum));
             list.add(model);
         }
+    }
+
+    private void pushHistoryToDB() {
+        String getUID = sp.getString(Konfigurasi.UID,"undefined");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference root = ref.child("DataUser").child(getUID).child("History");
+        String pushMinum = sekaliMinum + " ml";
+        root.push().setValue(new HistoryModel(historyTanggal, pushMinum, "10:20"));
+    }
+
+    private void ambilHariTanggal() {
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE", java.util.Locale.getDefault());
+        String dayString = sdf.format(new Date());
+        if (dayString.equals("Sunday")) dayString = "Minggu";
+        if (dayString.equals("Monday")) dayString = "Senin";
+        if (dayString.equals("Tuesday")) dayString = "Selasa";
+        if (dayString.equals("Wednesday")) dayString = "Rabu";
+        if (dayString.equals("Thursday")) dayString = "Kamis";
+        if (dayString.equals("Friday")) dayString = "Jumat";
+        if (dayString.equals("Saturday")) dayString = "Sabtu";
+        SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy", java.util.Locale.getDefault());
+        String tanggal = sdf2.format(new Date());
+        historyTanggal = dayString + ", " + tanggal;
+        pushHistoryToDB();
     }
 
     public static HomeFragment newInstance(){
@@ -178,13 +213,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             case R.id.minumAir:
                 if (arcProgress.getProgress()<10){
                     arcProgress.setProgress(progress++);
-                    akumulasi = akumulasi + sekaliMinum;
-                    akumulasi = Math.floor(akumulasi * 10) / 10;
-                    String stringAkumulasi = String.valueOf(akumulasi);
-                    progressTakaran.setText(stringAkumulasi);
+                    sudahDiMinum = sudahDiMinum + sekaliMinum;
+                    sudahDiMinum = Math.floor(sudahDiMinum * 10) / 10;
+                    String stringSudahDiMinum = String.valueOf(sudahDiMinum);
+                    progressTakaran.setText(stringSudahDiMinum);
+                    ambilHariTanggal();
                 }else {
                     Toast.makeText(getContext(),"Jangan banyak banyak, kembung!",Toast.LENGTH_SHORT).show();
-
                 }
                 break;
         }

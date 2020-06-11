@@ -2,14 +2,10 @@ package com.kelsiraman.peminum.mainlayout;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kelsiraman.peminum.R;
@@ -35,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
         tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
         setTabIcons();
-
-
     }
 
     @Override

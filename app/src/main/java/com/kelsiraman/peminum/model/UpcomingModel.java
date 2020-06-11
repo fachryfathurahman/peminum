@@ -5,29 +5,12 @@ import android.os.Parcelable;
 
 public class UpcomingModel implements Parcelable {
     String amount, time;
-
-    protected UpcomingModel(Parcel in) {
-        amount = in.readString();
-        time = in.readString();
+    public UpcomingModel() {
     }
-    public static final Creator<UpcomingModel> CREATOR = new Creator<UpcomingModel>() {
-        @Override
-        public UpcomingModel createFromParcel(Parcel in) {
-            return new UpcomingModel(in);
-        }
-
-        @Override
-        public UpcomingModel[] newArray(int size) {
-            return new UpcomingModel[size];
-        }
-    };
 
     public UpcomingModel(String amount, String time) {
         this.amount = amount;
         this.time = time;
-    }
-
-    public UpcomingModel() {
     }
 
     public String getTime() {
@@ -45,6 +28,22 @@ public class UpcomingModel implements Parcelable {
     public void setAmount(String amount) {
         this.amount = amount;
     }
+
+    protected UpcomingModel(Parcel in) {
+        amount = in.readString();
+        time = in.readString();
+    }
+    public static final Creator<UpcomingModel> CREATOR = new Creator<UpcomingModel>() {
+        @Override
+        public UpcomingModel createFromParcel(Parcel in) {
+            return new UpcomingModel(in);
+        }
+
+        @Override
+        public UpcomingModel[] newArray(int size) {
+            return new UpcomingModel[size];
+        }
+    };
 
     @Override
     public int describeContents() {

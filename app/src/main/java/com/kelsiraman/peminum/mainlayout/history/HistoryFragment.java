@@ -1,6 +1,7 @@
 package com.kelsiraman.peminum.mainlayout.history;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,11 +10,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kelsiraman.peminum.R;
+import com.kelsiraman.peminum.config.Konfigurasi;
 import com.kelsiraman.peminum.mainlayout.history.recycleView.RecycleViewAdapter;
 import com.kelsiraman.peminum.model.HistoryModel;
 
@@ -26,7 +34,8 @@ import java.util.Arrays;
  */
 public class HistoryFragment extends Fragment {
     private RecycleViewAdapter adapter;
-    private ArrayList<HistoryModel> list = new ArrayList<>();
+    private RecyclerView rv;
+    private ArrayList<HistoryModel> dataHistory;
     private Context mContext;
     public HistoryFragment() {
         // Required empty public constructor
@@ -36,24 +45,37 @@ public class HistoryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mContext = getContext();
-
-        //TODO hapus method ini jika data sudah di implementasikan
-        setDataKosong();
-
-        RecyclerView rv = view.findViewById(R.id.rvHistory);
+        rv = view.findViewById(R.id.rvHistory);
         rv.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        adapter = new RecycleViewAdapter();
-        adapter.setHistoryData(list,mContext);
         rv.setAdapter(adapter);
+
+        SharedPreferences sp = this.getActivity().getSharedPreferences(Konfigurasi.LOGINPREF,Context.MODE_PRIVATE);
+        String getUID = sp.getString(Konfigurasi.UID,"undefined");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference root = ref.child("DataUser").child(getUID).child("History");
+        root.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                dataHistory = new ArrayList<>();
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    HistoryModel hModel = ds.getValue(HistoryModel.class);
+                    dataHistory.add(hModel);
+                }
+                adapter = new RecycleViewAdapter(dataHistory, mContext);
+                rv.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("DBERROR", databaseError.getDetails()+" "+databaseError.getMessage());
+            }
+        });
     }
 
-    private void setDataKosong() {
-
-        ArrayList<String> time = new ArrayList<>(Arrays.asList("10.20", "11.20","11.40"));
-        ArrayList<String> amount = new ArrayList<>(Arrays.asList("1 gelas 200 ml","1 gelas 400 ml","1 gelas 200 ml"));
-        HistoryModel model = new HistoryModel("minggu",amount, time);
-        list.add(model);
-    }
+//    private void setDataKosong() {
+//        HistoryModel model = new HistoryModel("Minggu, 10-10-2010","200 ml", "10:20");
+//        list.add(model);
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

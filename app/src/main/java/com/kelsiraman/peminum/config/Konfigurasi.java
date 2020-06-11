@@ -14,4 +14,8 @@ public class Konfigurasi{
     public static final String TIDUR = "tidur";
     public static final String BERAT = "berat";
     public static final String UID = "uid";
+    public static final String PROGRESS ="progress";
+    public static final String AMOUNTPROGRESS = "amountprogress";
+    public static final String LISTUPCOMING = "listupcoming";
+    public static final String AKUMULASI = "AKUMULASI";
 }

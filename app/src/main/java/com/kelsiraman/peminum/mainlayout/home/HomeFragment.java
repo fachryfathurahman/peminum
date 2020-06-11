@@ -59,22 +59,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private ArcProgress arcProgress;
     private TextView maxTakaran;
     private TextView progressTakaran;
-    public SharedPreferences sp;
 
     private ArrayList<String> alarm = new ArrayList<>();
     private ArrayList<String> historyTakaran = new ArrayList<>();
     private int biarInnitSekali = 0;
-
     private String historyTanggal;
-
-    private int progress;
+    private int progress = 0;
     private int banyakMenit ;
     private double takaran ;
     private double sekaliMinum ;
     private double jedaMinum ;
-
     private double sudahDiMinum = 0;
-
     private final int ID_REPEATING=101;
     private Intent intent1;
     private PendingIntent pendingIntent;
@@ -103,17 +98,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         hello = view.findViewById(R.id.haiUser);
         btnTambahAir = view.findViewById(R.id.minumAir);
         btnTambahAir.setOnClickListener(this);
-        sp = this.getActivity().getSharedPreferences(Konfigurasi.LOGINPREF,Context.MODE_PRIVATE);
-        setAdapter(view);
-        if (biarInnitSekali++ < 1) hitungWaktuMinum(parcelDU);
-
         prepare(parcelDU);
         setAlarm(parcelDU);
-
-        //todo ganti dengan progrees
-        //warning : value ini akan kembali 0 jika di mulai app lagi
-        progress = 1;
-
+        setAdapter(view);
+        SharedPreferences sp = mContext.getSharedPreferences(Konfigurasi.PROGRESS, Context.MODE_PRIVATE);
+        int amount= sp.getInt(Konfigurasi.AMOUNTPROGRESS,0);
+        if (amount>0){
+            akumulasi = Double.longBitsToDouble(sp.getLong(Konfigurasi.AKUMULASI, Double.doubleToLongBits(0.0)));
+            String stringAkumulasi = String.valueOf(akumulasi);
+            progressTakaran.setText(stringAkumulasi);
+            progress = amount;
+            arcProgress.setProgress(amount);
+        }
+        if (biarInnitSekali++ < 1) hitungWaktuMinum(parcelDU);
     }
 
     private void prepare(DataUser parcelDU) {
@@ -172,7 +169,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             cal.add(Calendar.MINUTE, (int) jedaMinum);
             alarm.add(format.format(cal.getTime()));
         }
-        for (int i = 0; i < 10; i++) {
+        for (int i = progress; i < 10; i++) {
             UpcomingModel model = new UpcomingModel(sekaliMinum + " ml",alarm.get(i));
             historyTakaran.add(String.valueOf(sekaliMinum));
             list.add(model);
@@ -180,6 +177,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void pushHistoryToDB() {
+        SharedPreferences sp = this.getActivity().getSharedPreferences(Konfigurasi.LOGINPREF,Context.MODE_PRIVATE);
         String getUID = sp.getString(Konfigurasi.UID,"undefined");
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         DatabaseReference root = ref.child("DataUser").child(getUID).child("History");
@@ -212,12 +210,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()){
             case R.id.minumAir:
                 if (arcProgress.getProgress()<10){
+                    //TODO disable alarm disini
+                    list.remove(0);
+                    adapter.setUpcomingData(list,mContext);
+                    arcProgress.setProgress(++progress);
                     arcProgress.setProgress(progress++);
                     sudahDiMinum = sudahDiMinum + sekaliMinum;
                     sudahDiMinum = Math.floor(sudahDiMinum * 10) / 10;
                     String stringSudahDiMinum = String.valueOf(sudahDiMinum);
                     progressTakaran.setText(stringSudahDiMinum);
                     ambilHariTanggal();
+                    SharedPreferences.Editor editor= sp.edit();
+                    editor.putInt(Konfigurasi.AMOUNTPROGRESS, progress);
+                    editor.putLong(Konfigurasi.AKUMULASI,Double.doubleToRawLongBits(akumulasi));
+                    editor.apply();
                 }else {
                     Toast.makeText(getContext(),"Jangan banyak banyak, kembung!",Toast.LENGTH_SHORT).show();
                 }

@@ -21,6 +21,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     public void setUpcomingData(ArrayList<UpcomingModel> upcomingData, Context mContext){
         this.upcomingData = upcomingData;
         this.mContext = mContext;
+        notifyDataSetChanged();
     }
 
     @NonNull

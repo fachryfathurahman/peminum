@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -51,6 +52,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         TextView historyDay, historyAmount,historyTime;
         TextView historyAmount2,historyTime2;
         TextView historyAmount3, historyTime3;
+        ImageView img2, img3;
+        View divider2,divider3;
         public HolderHistory(@NonNull View itemView) {
             super(itemView);
             historyDay = itemView.findViewById(R.id.historyDay);
@@ -60,23 +63,41 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
             historyTime2 = itemView.findViewById(R.id.historyTime2);
             historyAmount3 = itemView.findViewById(R.id.historyAmount3);
             historyTime3 = itemView.findViewById(R.id.historyTime3);
+            img2 = itemView.findViewById(R.id.img2);
+            img3 = itemView.findViewById(R.id.img3);
+            divider2 = itemView.findViewById(R.id.divider2);
+            divider3 = itemView.findViewById(R.id.divider3);
         }
 
         public void bind(HistoryRvModel model) {
             int size = model.getAmount().size();
             historyDay.setText(model.getDay());
-            historyAmount.setText(model.getAmount().get(size-1));
-            historyTime.setText(model.getTime().get(size-1));
-            if (size>2){
-                historyAmount2.setText(model.getAmount().get(size-2));
-                historyTime2.setText(model.getTime().get(size-2));
-                if (size>3){
-                    historyAmount3.setText(model.getAmount().get(size-3));
-                    historyTime3.setText(model.getTime().get(size-3));
+            if (size>=1){
+                historyAmount.setText(model.getAmount().get(size-1));
+                historyTime.setText(model.getTime().get(size-1));
+                if (size>2){
+                    historyAmount2.setText(model.getAmount().get(size-2));
+                    historyTime2.setText(model.getTime().get(size-2));
+                    if (size>3){
+                        historyAmount3.setText(model.getAmount().get(size-3));
+                        historyTime3.setText(model.getTime().get(size-3));
+                    }else {
+                        historyTime2.setVisibility(View.GONE);
+                        historyAmount2.setVisibility(View.GONE);
+                        img2.setVisibility(View.GONE);
+                        divider2.setVisibility(View.GONE);
+                    }
+                }else {
+                    historyTime2.setVisibility(View.GONE);
+                    historyAmount2.setVisibility(View.GONE);
+                    img2.setVisibility(View.GONE);
+                    divider2.setVisibility(View.GONE);
+                    historyTime3.setVisibility(View.GONE);
+                    historyAmount3.setVisibility(View.GONE);
+                    img3.setVisibility(View.GONE);
+                    divider3.setVisibility(View.GONE);
                 }
             }
-
-
         }
     }
 }

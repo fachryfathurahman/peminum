@@ -27,6 +27,10 @@ import com.kelsiraman.peminum.model.HistoryModel;
 import com.kelsiraman.peminum.model.HistoryRvModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,48 +64,43 @@ public class HistoryFragment extends Fragment {
                     HistoryModel hModel = ds.getValue(HistoryModel.class);
                     dataHistory.add(hModel);
                 }
-                ArrayList<String> day = new ArrayList<>();
-                ArrayList<String> amount = new ArrayList<>();
-                ArrayList<String> time = new ArrayList<>();
+
+                HashMap<String, ArrayList<String>> hashMapAmount = new HashMap<>();
+                HashMap<String, ArrayList<String>> hashMapTime = new HashMap<>();
                 for (int i = 0; i < dataHistory.size(); i++) {
-                    day.add(dataHistory.get(i).getDay());
-                    amount.add(dataHistory.get(i).getAmount());
-                    time.add(dataHistory.get(i).getTime());
+                    if (!hashMapAmount.containsKey(dataHistory.get(i).getDay())){
+                        ArrayList<String> listAmount = new ArrayList<>();
+                        listAmount.add(dataHistory.get(i).getAmount());
+                        hashMapAmount.put(dataHistory.get(i).getDay(), listAmount);
+
+                        ArrayList<String> listTime = new ArrayList<>();
+                        listTime.add(dataHistory.get(i).getTime());
+                        hashMapTime.put(dataHistory.get(i).getDay(),listTime);
+                    }else {
+                        hashMapAmount.get(dataHistory.get(i).getDay()).add(dataHistory.get(i).getAmount());
+                        hashMapTime.get(dataHistory.get(i).getDay()).add(dataHistory.get(i).getTime());
+                    }
                 }
 
-                String tmpDay = day.get(0);
-                ArrayList<String> amountGroup = new ArrayList<>();
-                ArrayList<String> timeGroup = new ArrayList<>();
-                ArrayList<ArrayList<String>> groupAmount = new ArrayList<>();
-                ArrayList<ArrayList<String>> groupTime = new ArrayList<>();
-                int totalGroup = 0;
-                for (int i = 0; i < day.size(); i++) {
-                    if (day.get(i).equals(tmpDay)){
-                        amountGroup.add(amount.get(i));
-                        timeGroup.add(time.get(i));
-                    }else {
-                        groupAmount.add(amountGroup);
-                        Log.d("TAG", "onDataChange: "+amountGroup.get(i));
-                        groupTime.add(timeGroup);
-                        amountGroup.clear();
-                        timeGroup.clear();
-                        tmpDay = day.get(i);
-                        i--;
-                        totalGroup++;
-                    }
-                    if (i == day.size() - 1){
-                        groupAmount.add(amountGroup);
-                        Log.d("TAG", "onDataChange: "+amountGroup.get(i));
-                        groupTime.add(timeGroup);
-                        totalGroup++;
-                    }
+                ArrayList<String> day = new ArrayList<>();
+                for (int i = 0; i < dataHistory.size(); i++) {
+                    day.add(dataHistory.get(i).getDay());
+                }
+
+                Set<String> set = new HashSet<>(day);
+                day.clear();
+                day.addAll(set);
+
+                for (String key: hashMapAmount.keySet()) {
+                    Log.d("TAG", "onDataChange: "+key+" and "+hashMapAmount.get(key));
                 }
                 ArrayList<HistoryRvModel> data = new ArrayList<>();
-                for (int i = 0; i <totalGroup; i++) {
+                for (int i = 0; i < day.size(); i++) {
                     HistoryRvModel model = new HistoryRvModel();
-                    model.setDay(day.get(i));
-                    model.setAmount(groupAmount.get(i));
-                    model.setTime(groupTime.get(i));
+                    String sDay = day.get(i);
+                    model.setDay(sDay);
+                    model.setAmount(hashMapAmount.get(day.get(i)));
+                    model.setTime(hashMapTime.get(day.get(i)));
                     data.add(model);
                 }
 
@@ -117,10 +116,6 @@ public class HistoryFragment extends Fragment {
         });
     }
 
-//    private void setDataKosong() {
-//        HistoryModel model = new HistoryModel("Minggu, 10-10-2010","200 ml", "10:20");
-//        list.add(model);
-//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

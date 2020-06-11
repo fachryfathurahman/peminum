@@ -30,6 +30,7 @@ import com.kelsiraman.peminum.config.Konfigurasi;
 import com.kelsiraman.peminum.mainlayout.home.recycleview.RecycleViewAdapter;
 import com.kelsiraman.peminum.model.DataUser;
 import com.kelsiraman.peminum.model.HistoryModel;
+import com.kelsiraman.peminum.model.HistoryRvModel;
 import com.kelsiraman.peminum.model.UpcomingModel;
 
 import java.text.ParseException;
@@ -210,7 +211,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     list.remove(0);
                     adapter.setUpcomingData(list,mContext);
                     arcProgress.setProgress(++progress);
-                    arcProgress.setProgress(progress++);
                     akumulasi = akumulasi + sekaliMinum;
                     akumulasi = Math.floor(akumulasi * 10) / 10;
                     String stringSudahDiMinum = String.valueOf(akumulasi);

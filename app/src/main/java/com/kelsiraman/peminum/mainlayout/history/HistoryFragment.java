@@ -24,10 +24,9 @@ import com.kelsiraman.peminum.R;
 import com.kelsiraman.peminum.config.Konfigurasi;
 import com.kelsiraman.peminum.mainlayout.history.recycleView.RecycleViewAdapter;
 import com.kelsiraman.peminum.model.HistoryModel;
+import com.kelsiraman.peminum.model.HistoryRvModel;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,7 +60,53 @@ public class HistoryFragment extends Fragment {
                     HistoryModel hModel = ds.getValue(HistoryModel.class);
                     dataHistory.add(hModel);
                 }
-                adapter = new RecycleViewAdapter(dataHistory, mContext);
+                ArrayList<String> day = new ArrayList<>();
+                ArrayList<String> amount = new ArrayList<>();
+                ArrayList<String> time = new ArrayList<>();
+                for (int i = 0; i < dataHistory.size(); i++) {
+                    day.add(dataHistory.get(i).getDay());
+                    amount.add(dataHistory.get(i).getAmount());
+                    time.add(dataHistory.get(i).getTime());
+                }
+
+                String tmpDay = day.get(0);
+                ArrayList<String> amountGroup = new ArrayList<>();
+                ArrayList<String> timeGroup = new ArrayList<>();
+                ArrayList<ArrayList<String>> groupAmount = new ArrayList<>();
+                ArrayList<ArrayList<String>> groupTime = new ArrayList<>();
+                int totalGroup = 0;
+                for (int i = 0; i < day.size(); i++) {
+                    if (day.get(i).equals(tmpDay)){
+                        amountGroup.add(amount.get(i));
+                        timeGroup.add(time.get(i));
+                    }else {
+                        groupAmount.add(amountGroup);
+                        Log.d("TAG", "onDataChange: "+amountGroup.get(i));
+                        groupTime.add(timeGroup);
+                        amountGroup.clear();
+                        timeGroup.clear();
+                        tmpDay = day.get(i);
+                        i--;
+                        totalGroup++;
+                    }
+                    if (i == day.size() - 1){
+                        groupAmount.add(amountGroup);
+                        Log.d("TAG", "onDataChange: "+amountGroup.get(i));
+                        groupTime.add(timeGroup);
+                        totalGroup++;
+                    }
+                }
+                ArrayList<HistoryRvModel> data = new ArrayList<>();
+                for (int i = 0; i <totalGroup; i++) {
+                    HistoryRvModel model = new HistoryRvModel();
+                    model.setDay(day.get(i));
+                    model.setAmount(groupAmount.get(i));
+                    model.setTime(groupTime.get(i));
+                    data.add(model);
+                }
+
+                adapter = new RecycleViewAdapter();
+                adapter.setHistoryData(data,mContext);
                 rv.setAdapter(adapter);
             }
 

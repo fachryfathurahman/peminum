@@ -58,15 +58,15 @@ public class HistoryModel implements Parcelable {
         this.time = in.readString();
     }
 
-    public static final Parcelable.Creator<HistoryModel> CREATOR = new Parcelable.Creator<HistoryModel>() {
+    public static final Parcelable.Creator<HistoryRvModel> CREATOR = new Parcelable.Creator<HistoryRvModel>() {
         @Override
-        public HistoryModel createFromParcel(Parcel source) {
-            return new HistoryModel(source);
+        public HistoryRvModel createFromParcel(Parcel source) {
+            return new HistoryRvModel(source);
         }
 
         @Override
-        public HistoryModel[] newArray(int size) {
-            return new HistoryModel[size];
+        public HistoryRvModel[] newArray(int size) {
+            return new HistoryRvModel[size];
         }
     };
 }

@@ -22,19 +22,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.lzyzsd.circleprogress.ArcProgress;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.kelsiraman.peminum.Notif;
 import com.kelsiraman.peminum.R;
 import com.kelsiraman.peminum.config.Konfigurasi;
-import com.kelsiraman.peminum.mainlayout.MainActivity;
 import com.kelsiraman.peminum.mainlayout.home.recycleview.RecycleViewAdapter;
 import com.kelsiraman.peminum.model.DataUser;
 import com.kelsiraman.peminum.model.HistoryModel;
 import com.kelsiraman.peminum.model.UpcomingModel;
-import com.kelsiraman.peminum.pendaftaran.SleepTimeActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -69,7 +65,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private double takaran ;
     private double sekaliMinum ;
     private double jedaMinum ;
-    private double sudahDiMinum = 0;
+    private double akumulasi = 0;
     private final int ID_REPEATING=101;
     private Intent intent1;
     private PendingIntent pendingIntent;
@@ -119,7 +115,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         String max = "/"+hitungTakaran(parcelDU)+"ml";
         hello.setText(greeting);
         maxTakaran.setText(max);
-        String stringSudahDiMinum = String.valueOf(sudahDiMinum);
+        String stringSudahDiMinum = String.valueOf(akumulasi);
         progressTakaran.setText(stringSudahDiMinum);
     }
 
@@ -215,11 +211,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     adapter.setUpcomingData(list,mContext);
                     arcProgress.setProgress(++progress);
                     arcProgress.setProgress(progress++);
-                    sudahDiMinum = sudahDiMinum + sekaliMinum;
-                    sudahDiMinum = Math.floor(sudahDiMinum * 10) / 10;
-                    String stringSudahDiMinum = String.valueOf(sudahDiMinum);
+                    akumulasi = akumulasi + sekaliMinum;
+                    akumulasi = Math.floor(akumulasi * 10) / 10;
+                    String stringSudahDiMinum = String.valueOf(akumulasi);
                     progressTakaran.setText(stringSudahDiMinum);
                     ambilHariTanggal();
+                    SharedPreferences sp = mContext.getSharedPreferences(Konfigurasi.PROGRESS, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor= sp.edit();
                     editor.putInt(Konfigurasi.AMOUNTPROGRESS, progress);
                     editor.putLong(Konfigurasi.AKUMULASI,Double.doubleToRawLongBits(akumulasi));

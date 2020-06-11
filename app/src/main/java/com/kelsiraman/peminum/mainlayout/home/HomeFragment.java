@@ -177,6 +177,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()){
             case R.id.minumAir:
                 if (arcProgress.getProgress()<10){
+                    //TODO disable alarm disini
+
+                    list.remove(0);
+                    adapter.setUpcomingData(list,mContext);
                     arcProgress.setProgress(progress++);
                     akumulasi = akumulasi + sekaliMinum;
                     akumulasi = Math.floor(akumulasi * 10) / 10;

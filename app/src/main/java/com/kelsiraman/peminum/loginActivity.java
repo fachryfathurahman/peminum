@@ -92,9 +92,11 @@ public class loginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "signInWithEmail:success");
+                            Toast.makeText(loginActivity.this,"Berhasil Masuk",Toast.LENGTH_SHORT).show();
                             fetchDataAndToMain();
                         } else {
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(loginActivity.this,"Gagal Login Akun",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

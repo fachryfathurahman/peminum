@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mainlayout.history.expandHistory"></activity>
+        <activity android:name=".mainlayout.expandHistory.expandHistory"></activity>
         <activity
             android:name=".mainlayout.MainActivity"
             android:label="@string/title_activity_main"

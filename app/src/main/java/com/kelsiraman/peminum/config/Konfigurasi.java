@@ -18,4 +18,5 @@ public class Konfigurasi{
     public static final String AMOUNTPROGRESS = "amountprogress";
     public static final String LISTUPCOMING = "listupcoming";
     public static final String AKUMULASI = "AKUMULASI";
+    public static final String CDHISTORY = "cdhistory";
 }

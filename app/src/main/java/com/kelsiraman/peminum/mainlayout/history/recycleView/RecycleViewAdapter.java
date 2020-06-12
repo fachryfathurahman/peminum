@@ -1,6 +1,7 @@
 package com.kelsiraman.peminum.mainlayout.history.recycleView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,9 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kelsiraman.peminum.R;
+import com.kelsiraman.peminum.config.Konfigurasi;
+import com.kelsiraman.peminum.mainlayout.expandHistory.expandHistory;
 import com.kelsiraman.peminum.model.HistoryRvModel;
 
 import java.util.ArrayList;
@@ -54,6 +58,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         TextView historyAmount3, historyTime3;
         ImageView img2, img3;
         View divider2,divider3;
+        CardView cdHistory;
         public HolderHistory(@NonNull View itemView) {
             super(itemView);
             historyDay = itemView.findViewById(R.id.historyDay);
@@ -67,11 +72,20 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
             img3 = itemView.findViewById(R.id.img3);
             divider2 = itemView.findViewById(R.id.divider2);
             divider3 = itemView.findViewById(R.id.divider3);
+            cdHistory = itemView.findViewById(R.id.cdHistory);
         }
 
-        public void bind(HistoryRvModel model) {
+        public void bind(final HistoryRvModel model) {
             int size = model.getAmount().size();
             historyDay.setText(model.getDay());
+            cdHistory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, expandHistory.class);
+                    intent.putExtra(Konfigurasi.CDHISTORY,model);
+                    mContext.startActivity(intent);
+                }
+            });
             if (size>=1){
                 historyAmount.setText(model.getAmount().get(size-1));
                 historyTime.setText(model.getTime().get(size-1));

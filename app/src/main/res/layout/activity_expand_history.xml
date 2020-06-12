@@ -40,10 +40,14 @@
         app:layout_constraintTop_toTopOf="@+id/toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="409dp"
-        android:layout_height="715dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/rvExpanded"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingBottom="127dp"
+        android:scrollbarStyle="outsideOverlay"
         app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/item_expand_history"/>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:listitem="@layout/item_expand_history" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

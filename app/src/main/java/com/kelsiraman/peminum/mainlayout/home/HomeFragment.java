@@ -221,24 +221,36 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     //TODO disable alarm disini
                     if(count == 0){
                         alarmPertama(jb,mb,1);
+                        count++;
                     }else if(count == 1){
                         alarmKedua(jb,mb,1);
+                        count++;
                     }else if(count == 2){
                         alarmKetiga(jb,mb,1);
+                        count++;
                     }else if(count == 3){
                         alarmKeempat(jb,mb,1);
+                        count++;
                     }else if(count == 4){
                         alarmKelima(jb,mb,1);
+                        count++;
                     }else if(count == 5){
                         alarmKeenam(jb,mb,1);
+                        count++;
                     }else if(count == 6){
                         alarmKetujuh(jb,mb,1);
+                        count++;
                     }else if(count == 7){
                         alarmKedelapan(jb,mb,1);
+                        count++;
                     }else if(count == 8){
                         alarmKesembilan(jb,mb,1);
+                        count++;
                     }else if(count == 9){
                         alarmKesepuluh(jb,mb,1);
+                        count++;
+                    }else{
+                        count-=10;
                     }
 
                     list.remove(0);

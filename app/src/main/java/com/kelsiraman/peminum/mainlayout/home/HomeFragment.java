@@ -178,15 +178,22 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private void pushHistoryToDB() {
         SharedPreferences sp = this.getActivity().getSharedPreferences(Konfigurasi.LOGINPREF,Context.MODE_PRIVATE);
         String getUID = sp.getString(Konfigurasi.UID,"undefined");
+
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         DatabaseReference root = ref.child("DataUser").child(getUID).child("History");
+
         String pushMinum = sekaliMinum + " ml";
-        root.push().setValue(new HistoryModel(historyTanggal, pushMinum, "10:20"));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", java.util.Locale.getDefault());
+        String ambilJam = sdf.format(new Date());
+
+        root.push().setValue(new HistoryModel(historyTanggal, pushMinum, ambilJam));
     }
 
     private void ambilHariTanggal() {
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE", java.util.Locale.getDefault());
         String dayString = sdf.format(new Date());
+
         if (dayString.equals("Sunday")) dayString = "Minggu";
         if (dayString.equals("Monday")) dayString = "Senin";
         if (dayString.equals("Tuesday")) dayString = "Selasa";
@@ -194,9 +201,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         if (dayString.equals("Thursday")) dayString = "Kamis";
         if (dayString.equals("Friday")) dayString = "Jumat";
         if (dayString.equals("Saturday")) dayString = "Sabtu";
+
         SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy", java.util.Locale.getDefault());
         String tanggal = sdf2.format(new Date());
         historyTanggal = dayString + ", " + tanggal;
+
         pushHistoryToDB();
     }
 
@@ -246,7 +255,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     editor.putLong(Konfigurasi.AKUMULASI,Double.doubleToRawLongBits(akumulasi));
                     editor.apply();
                 }else {
-                    Toast.makeText(getContext(),"Jangan banyak banyak, kembung!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"Anda telah memenuhi takaran harian",Toast.LENGTH_SHORT).show();
+                    akumulasi = akumulasi + sekaliMinum;
+                    akumulasi = Math.floor(akumulasi * 10) / 10;
+                    String stringSudahDiMinum = String.valueOf(akumulasi);
+                    progressTakaran.setText(stringSudahDiMinum);
+                    ambilHariTanggal();
+                    SharedPreferences sp = mContext.getSharedPreferences(Konfigurasi.PROGRESS, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor= sp.edit();
+                    editor.putLong(Konfigurasi.AKUMULASI,Double.doubleToRawLongBits(akumulasi));
+                    editor.apply();
                 }
                 break;
         }

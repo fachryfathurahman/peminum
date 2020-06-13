@@ -17,7 +17,8 @@
     <string name="waktu_tidur">Waktu Tidur</string>
     <string name="female">Female</string>
     <string name="male">Male</string>
-    <string name="welcome">Welcome</string>
+    <string name="welcome">Selamat Datang</string>
+    <string name="welcometxt">Peminum adalah aplikasi asisten minum air probadi anda. jangan lupa untuk minum air dan jaga kesehatan.</string>
     <string name="get_started">Get Started</string>
     <string name="peminum">P E M I N U M</string>
     <string name="title_activity_main">MainActivity</string>

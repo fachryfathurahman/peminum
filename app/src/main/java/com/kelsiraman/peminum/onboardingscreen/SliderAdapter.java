@@ -27,13 +27,13 @@ public class SliderAdapter extends PagerAdapter {
     };
 
     public String[] slide_headings = {
-            "Welcome",
+            "Selamat Datang",
             "Hai,\n" +
                     "Saya pendamping hidrasi pribadi anda"
     };
 
     public String[] slide_desc={
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ac metus laoreet, porttitor nisl id, rhoncus diam. Donec eget dolor in lorem ornare scelerisque.",
+            "Peminum adalah aplikasi asisten minum air pribadi anda. Jangan lupa untuk minum air dan jaga kesehatan.",
             "Takaran minum berdasarkan berat badan dan tinggi badan anda",
     };
     @Override
